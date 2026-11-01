@@ -1,5 +1,7 @@
 # ClassPulse
 
+**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. All 42 local tests pass; production and acceptance blockers remain.
+
 R1 agency placement-to-start coordination. The runnable implementation covers company setup, clients and minimal candidate references, checklist ownership, scoped client participation, exceptions and human readiness/start decisions, CSV import, daily reminders, and operational reports. Full HRMS and payroll remain outside this release.
 
 ## Local development

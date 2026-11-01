@@ -7,6 +7,7 @@ import {
   placementScope,
   requireModule,
   requirePermission,
+  requireEntityScope,
 } from "@/platform/policy";
 import { check } from "@/platform/errors";
 import {
@@ -100,6 +101,7 @@ export async function createClient(
         ...(data.entityId ? { id: data.entityId } : {}),
       },
     });
+    requireEntityScope(ctx, "accounts.write", entity.id);
     const row = await tx.clientAccount.create({
       data: {
         tenantId: ctx.tenantId,
@@ -183,6 +185,7 @@ export async function createPlacement(
       "CLIENT_UNAVAILABLE",
       "Choose an accessible active client.",
     );
+    requireEntityScope(ctx, "placements.write", client.entityId, client.id);
     const entity = await tx.legalEntity.findUniqueOrThrow({
       where: { tenantId_id: { tenantId: ctx.tenantId, id: client.entityId } },
     });

@@ -7,6 +7,7 @@ const schema = z.object({
   APP_URL: z.url(),
   DATABASE_URL: z.url(),
   REDIS_URL: z.url(),
+  TRUST_INGRESS_IP: z.enum(["true", "false"]).default("false"),
   SESSION_KEY: z.string().regex(/^[a-f0-9]{64}$/),
   DATA_KEY: z.string().regex(/^[a-f0-9]{64}$/),
   AUTH_MODE: z.enum(["oidc", "development"]).default("oidc"),
@@ -30,13 +31,20 @@ export function config() {
     );
   const c = result.data;
   if (
-    c.APP_ENV === "production" &&
+    (c.APP_ENV === "production" || process.env.NODE_ENV === "production") &&
     (new URL(c.APP_URL).protocol !== "https:" ||
       c.AUTH_MODE !== "oidc" ||
       c.STORAGE_DRIVER !== "s3" ||
-      c.MAIL_DRIVER !== "ses")
+      c.MAIL_DRIVER !== "ses" ||
+      !c.OIDC_ISSUER?.startsWith("https://") ||
+      !c.OIDC_CLIENT_ID?.trim() ||
+      !c.COGNITO_USER_POOL_ID?.trim() ||
+      !c.S3_BUCKET?.trim() ||
+      new URL(c.REDIS_URL).protocol !== "rediss:")
   )
-    throw new Error("Production requires HTTPS, OIDC, S3 and SES");
+    throw new Error(
+      "Production requires HTTPS, configured OIDC/Cognito and S3 identifiers, SES and TLS Redis",
+    );
   if (
     c.AUTH_MODE === "development" &&
     (process.env.NODE_ENV === "production" ||

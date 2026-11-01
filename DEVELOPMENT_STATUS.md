@@ -1,8 +1,8 @@
 # Development status
 
-Updated 2026-11-01 17:59 UTC.
+Updated 2026-11-01, Phase 6 audit.
 
-**Local MVP milestone complete: R1 accepted-placement-to-start coordination. Production/commercial release remains gated.** Phase 5 authorizes implementation; earlier documents remain the approved design baseline. No environment publication or deployment was performed. Payroll is excluded.
+**Phase 6 verdict: NO-GO. R1 is locally testable; whole-scope acceptance and production/commercial release remain gated.** Phase 5 authorizes implementation; earlier documents remain the approved design baseline. No environment publication or deployment was performed. Payroll is excluded.
 
 ## Delivered vertical slices
 
@@ -25,3 +25,9 @@ Every slice includes tracked schema changes where applicable, business/input val
 ## Open release gates
 
 REQ-L002/L003/L005 remain open: founder/customer/payment evidence; independent security/privacy/legal approval; finalized terms; live cloud MFA/identity/storage/mail/IAM/residency binding; production performance/observability; encrypted backup/object restore and tombstone replay. Manual assistive-technology review, source-retention/subject-response completeness and key-rotation/operator-access operations also require review. The repository has Docker targets/CI, not a provisioned production deployment. See [known limitations](KNOWN_LIMITATIONS.md) and [operations runbook](docs/OPERATIONS_RUNBOOK.md).
+
+## Phase 6 independent-role audit
+
+The same assistant performed an adversarial audit, not third-party certification. Ten finding areas were fixed and retested, including entity scope, participant authorization, commercial replay integrity, quota validation, export limits/CSV consistency, throttling, production configuration, error responses and ambiguous digest handling. The final complete gate passes **13 unit + 27 native PostgreSQL integration + 2 browser tests = 42**, plus format/lint/types/API/migration/RLS/dependency/build checks. The Phase 5 result above is historical.
+
+[Full results and R1 requirement dispositions](TEST_RESULTS.md), [security findings](SECURITY_AUDIT.md), [compliance gaps](COMPLIANCE_GAP_ANALYSIS.md), [measured local performance](PERFORMANCE_TEST_RESULTS.md), [test plan](TEST_PLAN.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) distinguish local passes from partial/unverified clauses. Production identity/cloud/recovery/legal/operator-control gates remain open. Snapshot reuse, source provenance and manual accessibility acceptance remain incomplete. No publication or deployment occurred.

@@ -15,7 +15,7 @@ paths:
       summary: GET /api/v1/me
       description: "Internal R1 endpoint. Permission: session. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -104,7 +104,7 @@ paths:
       summary: GET /api/v1/clients
       description: "Internal R1 endpoint. Permission: accounts.read. Module: crm.accounts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -146,7 +146,7 @@ paths:
       summary: POST /api/v1/clients
       description: "Internal R1 endpoint. Permission: accounts.write. Module: crm.accounts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -199,7 +199,7 @@ paths:
       summary: GET /api/v1/placements
       description: "Internal R1 endpoint. Permission: placements.read. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -239,7 +239,7 @@ paths:
       summary: POST /api/v1/placements
       description: "Internal R1 endpoint. Permission: placements.write. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -291,7 +291,7 @@ paths:
       summary: GET /api/v1/placements/{id}
       description: "Internal R1 endpoint. Permission: placements.read. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -324,7 +324,7 @@ paths:
       summary: POST /api/v1/placements/{id}/actions
       description: "Internal R1 endpoint. Permission: action-specific permission. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -386,7 +386,7 @@ paths:
       summary: GET /api/v1/reports
       description: "Internal R1 endpoint. Permission: reports.read. Module: platform.analytics + agency.starts.
         Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -435,7 +435,7 @@ paths:
       summary: POST /api/v1/exports
       description: "Internal R1 endpoint. Permission: reports.export. Module: platform.analytics + agency.starts.
         Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -499,7 +499,7 @@ paths:
       summary: GET /api/v1/exports/{id}
       description: "Internal R1 endpoint. Permission: reports.export. Module: platform.analytics. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -546,7 +546,7 @@ paths:
       summary: GET /api/v1/exports/{id}/content
       description: "Internal R1 endpoint. Permission: reports.export. Module: platform.analytics + agency.starts.
         Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -588,7 +588,7 @@ paths:
       summary: POST /api/v1/imports
       description: "Internal R1 endpoint. Permission: imports.run. Module: platform.integrations + agency.starts.
         Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -650,7 +650,7 @@ paths:
       summary: GET /api/v1/imports/{id}
       description: "Internal R1 endpoint. Permission: imports.run. Module: platform.integrations. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -711,7 +711,7 @@ paths:
       summary: POST /api/v1/imports/{id}/commit
       description: "Internal R1 endpoint. Permission: imports.run + accounts.write + placements.write. Module:
         platform.integrations + agency.starts. Current tenant/session/role/module/scope checks apply on every
-        request. Lists are bounded; no public integration API is offered."
+        request. Lists are bounded; no public integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -770,7 +770,7 @@ paths:
       summary: POST /api/v1/modules
       description: "Internal R1 endpoint. Permission: billing.manage + fresh MFA. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -840,7 +840,7 @@ paths:
       summary: POST /api/v1/invitations
       description: "Internal R1 endpoint. Permission: participants.manage. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -914,7 +914,7 @@ paths:
       summary: GET /api/v1/participants/{id}
       description: "Internal R1 endpoint. Permission: participants.manage. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1000,7 +1000,7 @@ paths:
       summary: POST /api/v1/participants/revoke
       description: "Internal R1 endpoint. Permission: participants.manage. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1057,7 +1057,7 @@ paths:
       summary: GET /api/v1/shared
       description: "Internal R1 endpoint. Permission: placement grant. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1117,7 +1117,7 @@ paths:
       summary: POST /api/v1/shared/complete
       description: "Internal R1 endpoint. Permission: tasks.complete + current assignment. Module: agency.starts.
         Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1184,7 +1184,7 @@ paths:
       summary: GET /api/v1/views
       description: "Internal R1 endpoint. Permission: reports.read. Module: platform.analytics. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1231,7 +1231,7 @@ paths:
       summary: POST /api/v1/views
       description: "Internal R1 endpoint. Permission: reports.read + explicit team membership. Module:
         platform.analytics. Current tenant/session/role/module/scope checks apply on every request. Lists are
-        bounded; no public integration API is offered."
+        bounded; no public integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1297,7 +1297,7 @@ paths:
       summary: GET /api/v1/teams
       description: "Internal R1 endpoint. Permission: session. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1341,7 +1341,7 @@ paths:
       summary: GET /api/v1/members
       description: "Internal R1 endpoint. Permission: tasks.assign. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1381,7 +1381,7 @@ paths:
       summary: POST /api/v1/members/invite
       description: "Internal R1 endpoint. Permission: roles.manage + fresh MFA. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1447,7 +1447,7 @@ paths:
       summary: POST /api/v1/members/deactivate
       description: "Internal R1 endpoint. Permission: roles.manage + fresh MFA. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1504,7 +1504,7 @@ paths:
       summary: POST /api/v1/tasks/assign
       description: "Internal R1 endpoint. Permission: tasks.assign. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1569,7 +1569,7 @@ paths:
       summary: GET /api/v1/template
       description: "Internal R1 endpoint. Permission: templates.manage. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1618,7 +1618,7 @@ paths:
       summary: POST /api/v1/template
       description: "Internal R1 endpoint. Permission: templates.manage. Module: agency.starts. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1694,7 +1694,7 @@ paths:
       summary: POST /api/v1/commercial-requests
       description: "Internal R1 endpoint. Permission: billing.manage. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1761,7 +1761,7 @@ paths:
       summary: GET /api/v1/entities
       description: "Internal R1 endpoint. Permission: accounts.read. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1808,7 +1808,7 @@ paths:
       summary: POST /api/v1/entities
       description: "Internal R1 endpoint. Permission: tenant.manage + fresh MFA. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -1875,7 +1875,7 @@ paths:
       summary: GET /api/v1/privacy
       description: "Internal R1 endpoint. Permission: privacy.manage. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -1946,7 +1946,7 @@ paths:
       summary: POST /api/v1/privacy
       description: "Internal R1 endpoint. Permission: privacy.manage + fresh MFA. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -2014,7 +2014,7 @@ paths:
       summary: POST /api/v1/holds
       description: "Internal R1 endpoint. Permission: privacy.manage + fresh MFA. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters:
@@ -2077,7 +2077,7 @@ paths:
       summary: GET /api/v1/audit
       description: "Internal R1 endpoint. Permission: audit.read. Module: platform.core. Current
         tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
-        integration API is offered."
+        integration API is offered. Exports are limited to 5,000 rows."
       security:
         - session: []
       parameters: []
@@ -2124,7 +2124,7 @@ paths:
       summary: POST /api/v1/tenants
       description: "Internal R1 endpoint. Permission: verified identity cookie + exact Origin. Module:
         platform.core. Current tenant/session/role/module/scope checks apply on every request. Lists are
-        bounded; no public integration API is offered."
+        bounded; no public integration API is offered. Exports are limited to 5,000 rows."
       security:
         - identity: []
       parameters:

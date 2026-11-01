@@ -167,10 +167,33 @@ export function requirePermission(ctx: Context, permission: string) {
 }
 export function requireFreshMfa(ctx: Context) {
   check(
-    ctx.mfaAt && Date.now() - ctx.mfaAt.getTime() < 10 * 60000,
+    ctx.mfaAt &&
+      ctx.mfaAt.getTime() <= Date.now() &&
+      Date.now() - ctx.mfaAt.getTime() < 10 * 60000,
     403,
     "REAUTH_REQUIRED",
     "Sign in again to confirm this sensitive change.",
+  );
+}
+export function requireEntityScope(
+  ctx: Context,
+  permission: string,
+  entityId: string,
+  clientId?: string,
+) {
+  requirePermission(ctx, permission);
+  check(
+    ctx.grants.some(
+      (g) =>
+        g.permission === permission &&
+        (g.scopeType === "tenant" ||
+          g.scopeType === "self" ||
+          (g.scopeType === "entity" && g.entityId === entityId) ||
+          (g.scopeType === "client" && !!clientId && g.clientId === clientId)),
+    ),
+    403,
+    "FORBIDDEN",
+    "This action is outside your authorized entity or client scope.",
   );
 }
 export function requireModule(ctx: Context, key: ModuleKey, write = false) {

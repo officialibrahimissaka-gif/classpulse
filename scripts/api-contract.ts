@@ -219,7 +219,7 @@ function add(
   paths[path][method] = {
     operationId: `R1-API-${String(++index).padStart(3, "0")}`,
     summary: `${method.toUpperCase()} ${path}`,
-    description: `Internal R1 endpoint. Permission: ${permission}. Module: ${module}. Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public integration API is offered.`,
+    description: `Internal R1 endpoint. Permission: ${permission}. Module: ${module}. Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public integration API is offered. Exports are limited to 5,000 rows.`,
     security: [{ session: [] }],
     parameters,
     ...(request

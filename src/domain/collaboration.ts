@@ -48,7 +48,7 @@ export async function invite(
     const placement = await tx.placement.findFirst({
       where: {
         AND: [
-          placementScope(ctx),
+          placementScope(ctx, "participants.manage"),
           { id: data.placementId, status: { notIn: ["started", "canceled"] } },
         ],
       },
@@ -163,7 +163,10 @@ export async function accept(identity: Identity, input: unknown) {
     check(
       await tx.placement.findFirst({
         where: {
-          AND: [placementScope(inviter), { id: invitation.placementId }],
+          AND: [
+            placementScope(inviter, "participants.manage"),
+            { id: invitation.placementId },
+          ],
         },
       }),
       403,
@@ -212,6 +215,12 @@ export async function accept(identity: Identity, input: unknown) {
       403,
       "ACCESS_CHANGED",
       "This identity has been deactivated.",
+    );
+    check(
+      member.isExternal,
+      409,
+      "IDENTITY_BOUNDARY",
+      "Internal members must use internal task assignment, not a client-participant identity.",
     );
     const old = await tx.participantGrant.findUnique({
       where: {
@@ -318,6 +327,7 @@ export async function shared(tx: Tx, ctx: Context) {
     where: {
       tenantId: ctx.tenantId,
       membershipId: ctx.memberId,
+      placement: placementScope(ctx, "placements.read"),
       revokedAt: null,
       expiresAt: { gt: new Date() },
     },
@@ -391,6 +401,7 @@ export async function completeShared(
         revokedAt: null,
         expiresAt: { gt: new Date() },
         canCompleteAssignedTasks: true,
+        placement: placementScope(ctx, "tasks.complete"),
       },
     });
     check(grant, 404, "NOT_FOUND", "Shared placement unavailable");
@@ -463,7 +474,20 @@ export async function revoke(
     const grant = await tx.participantGrant.findUnique({
       where: { tenantId_id: { tenantId: ctx.tenantId, id: data.grantId } },
     });
-    check(grant, 404, "NOT_FOUND", "Grant unavailable");
+    check(
+      grant &&
+        (await tx.placement.findFirst({
+          where: {
+            AND: [
+              placementScope(ctx, "participants.manage"),
+              { id: grant.placementId },
+            ],
+          },
+        })),
+      404,
+      "NOT_FOUND",
+      "Grant unavailable",
+    );
     await tx.participantGrant.update({
       where: { tenantId_id: { tenantId: ctx.tenantId, id: grant.id } },
       data: { revokedAt: new Date(), version: { increment: 1 } },
@@ -588,4 +612,35 @@ async function sharedTaskIds(
     select: { taskIds: true },
   });
   return invite ? z.array(z.uuid()).parse(invite.taskIds) : [];
+}
+
+export async function participants(tx: Tx, ctx: Context, id: string) {
+  requireModule(ctx, "agency.starts");
+  requirePermission(ctx, "participants.manage");
+  const placement = await tx.placement.findFirst({
+    where: { AND: [placementScope(ctx, "participants.manage"), { id }] },
+  });
+  check(placement, 404, "NOT_FOUND", "Placement unavailable");
+  const result = {
+    grants: await tx.participantGrant.findMany({
+      where: { tenantId: ctx.tenantId, placementId: id },
+      select: {
+        id: true,
+        revokedAt: true,
+        expiresAt: true,
+        contact: { select: { displayName: true } },
+      },
+    }),
+    invitations: await tx.invitation.findMany({
+      where: { tenantId: ctx.tenantId, placementId: id },
+      select: {
+        id: true,
+        acceptedAt: true,
+        expiresAt: true,
+        deliveryRows: { select: { state: true } },
+      },
+    }),
+  };
+  await audit(tx, ctx, "participants.inspected", "placement", id);
+  return result;
 }

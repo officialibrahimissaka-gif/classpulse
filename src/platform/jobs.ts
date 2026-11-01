@@ -71,7 +71,12 @@ export async function deliverInvitation(tenantId: string, id: string) {
       if (invite.scopeType !== "tenant")
         check(
           await tx.placement.findFirst({
-            where: { AND: [placementScope(ctx), { id: invite.placementId! }] },
+            where: {
+              AND: [
+                placementScope(ctx, "participants.manage"),
+                { id: invite.placementId! },
+              ],
+            },
           }),
           403,
           "ACCESS_CHANGED",
@@ -135,9 +140,15 @@ export async function runWorker() {
       if (record.state === "completed" || record.state === "needs_review")
         return;
       try {
-        if (record.jobType === "digest.send")
-          await deliverDigest(tenantId, jobId);
-        else if (record.jobType === "report.generate")
+        if (record.jobType === "digest.send") {
+          const state = await deliverDigest(tenantId, jobId);
+          check(
+            state === "accepted_by_provider" || state === "suppressed_empty",
+            409,
+            "DELIVERY_REVIEW_REQUIRED",
+            "Digest outcome requires review",
+          );
+        } else if (record.jobType === "report.generate")
           await generateExport(tenantId, record.resourceId);
         else {
           const state = await deliverInvitation(tenantId, record.resourceId);

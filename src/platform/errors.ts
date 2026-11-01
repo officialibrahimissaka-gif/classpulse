@@ -34,7 +34,13 @@ export function problemResponse(
           code: i.code,
         })),
       },
-      { status: 422 },
+      {
+        status: 422,
+        headers: {
+          "Content-Type": "application/problem+json",
+          "Cache-Control": "no-store",
+        },
+      },
     );
   if (
     typeof error === "object" &&
@@ -60,6 +66,15 @@ export function problemResponse(
   // Never log request bodies, database exceptions, tokens or personal data.
   if (e.status === 500)
     console.error(JSON.stringify({ event: "request_failed", requestId }));
+  if ([401, 403, 429].includes(e.status))
+    console.warn(
+      JSON.stringify({
+        event: "security.denied",
+        requestId,
+        status: e.status,
+        code: e.code,
+      }),
+    );
   return Response.json(
     {
       type: "about:blank",

@@ -1,0 +1,11 @@
+
+ RUN  v5.0.5 /workspace/classpulse
+
+(node:10143) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  19:53:38
+   Duration  2.23s (tests 57%, import 26%, transform 16%, worker 1%)
+

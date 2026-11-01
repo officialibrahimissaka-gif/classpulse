@@ -60,7 +60,7 @@ export async function deliverDigest(tenantId: string, jobId: string) {
         tenantId_operationKey: { tenantId, operationKey: job.operationKey },
       },
     });
-    if (old) return null;
+    if (old) return { existingState: old.state };
     return tx.notificationDelivery.create({
       data: {
         tenantId,
@@ -73,9 +73,9 @@ export async function deliverDigest(tenantId: string, jobId: string) {
       },
     });
   });
-  if (!delivery) return;
+  if ("existingState" in delivery) return delivery.existingState;
   try {
-    await tenantTransaction(tenantId, async (tx) => {
+    return await tenantTransaction(tenantId, async (tx) => {
       await tx.$queryRaw`SELECT id FROM tenant WHERE id=${tenantId}::uuid FOR SHARE`;
       const ctx = await memberContext(tx, tenantId, delivery.recipientId);
       requireModule(ctx, "agency.starts", true);
@@ -110,6 +110,7 @@ export async function deliverDigest(tenantId: string, jobId: string) {
           version: { increment: 1 },
         },
       });
+      return count ? "accepted_by_provider" : "suppressed_empty";
     });
   } catch (error) {
     await tenantTransaction(tenantId, async (tx) => {

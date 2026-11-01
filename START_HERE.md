@@ -1,5 +1,7 @@
 # Your ClassPulse delivery
 
+**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. All 42 local tests pass; production and acceptance blockers remain.
+
 The source and documentation are now uploaded to GitHub on branch `codex/classpulse-mvp-review`. The `main` branch is unchanged. Uploading source does not deploy a running application.
 
 ## Files

@@ -32,6 +32,7 @@ export async function GET(
   { params }: { params: Promise<{ action: string }> },
 ) {
   try {
+    await rateLimit(request);
     const { action } = await params,
       c = config();
     check(

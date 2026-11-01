@@ -84,6 +84,14 @@ export async function GET(request: Request, { params }: Params) {
         requirePermission(ctx, "privacy.manage");
         const { requireModule } = await import("@/platform/policy");
         requireModule(ctx, "agency.starts");
+        const { audit } = await import("@/platform/commands");
+        await audit(
+          tx,
+          ctx,
+          "privacy.subjects_inspected",
+          "tenant",
+          ctx.tenantId,
+        );
         return {
           requests: await tx.privacyRequest.findMany({
             where: { tenantId: ctx.tenantId },
@@ -152,37 +160,12 @@ export async function GET(request: Request, { params }: Params) {
           filterSchema.parse(Object.fromEntries(url.searchParams)),
         );
       }
-      if (path[0] === "participants" && path.length === 2) {
-        requirePermission(ctx, "participants.manage");
-        return {
-          grants: await tx.participantGrant.findMany({
-            where: {
-              tenantId: ctx.tenantId,
-              placementId: z.uuid().parse(path[1]),
-            },
-            select: {
-              id: true,
-              revokedAt: true,
-              expiresAt: true,
-              contact: { select: { displayName: true } },
-            },
-          }),
-          invitations: await tx.invitation.findMany({
-            where: {
-              tenantId: ctx.tenantId,
-              placementId: z.uuid().parse(path[1]),
-            },
-            select: {
-              id: true,
-              acceptedAt: true,
-              expiresAt: true,
-              deliveryRows: { select: { state: true } },
-            },
-          }),
-        };
-      }
+      if (path[0] === "participants" && path.length === 2)
+        return collaboration.participants(tx, ctx, z.uuid().parse(path[1]));
       if (path.join("/") === "audit") {
         requirePermission(ctx, "audit.read");
+        const { audit } = await import("@/platform/commands");
+        await audit(tx, ctx, "audit.inspected", "tenant", ctx.tenantId);
         return tx.auditEvent.findMany({
           where: { tenantId: ctx.tenantId },
           orderBy: { occurredAt: "desc" },

@@ -18,6 +18,7 @@ import { check } from "@/platform/errors";
 import { canonical, hash } from "@/platform/crypto";
 import { putArtifact, getArtifact, removeArtifact } from "@/platform/storage";
 import { filterSchema, report, type MetricRow } from "./analytics";
+export const exportRowLimit = 5000;
 const formatSchema = z.enum(["pdf", "csv", "xlsx"]);
 const requestSchema = z
   .object({ filters: filterSchema, format: formatSchema })
@@ -101,6 +102,12 @@ export async function renderReport(
     rows: MetricRow[];
   },
 ) {
+  check(
+    data.rows.length <= exportRowLimit,
+    422,
+    "EXPORT_ROW_LIMIT",
+    "An export can contain at most 5,000 source rows. Narrow the report filters.",
+  );
   const headings = [
     "Candidate",
     "Client",
@@ -121,15 +128,22 @@ export async function renderReport(
   ]);
   if (format === "csv")
     return Buffer.from(
-      stringify([
-        ["As of", data.asOf],
-        ...Object.entries(data.metrics),
-        [],
-        headings,
-        ...rows.map((r) =>
-          r.map((v) => (typeof v === "string" ? csvSafe(v) : v)),
+      stringify(
+        [
+          ["As of", data.asOf],
+          ...Object.entries(data.metrics),
+          [],
+          headings,
+          ...rows.map((r) =>
+            r.map((v) => (typeof v === "string" ? csvSafe(v) : v)),
+          ),
+        ].map((record) =>
+          Array.from(
+            { length: headings.length },
+            (_, index) => record[index] ?? "",
+          ),
         ),
-      ]),
+      ),
     );
   if (format === "xlsx") {
     return spreadsheet([
@@ -192,6 +206,12 @@ export async function generateExport(tenantId: string, runId: string) {
         "Report scope changed",
       );
       const data = await report(tx, ctx, input.filters);
+      check(
+        data.rows.length <= exportRowLimit,
+        422,
+        "EXPORT_ROW_LIMIT",
+        "An export can contain at most 5,000 source rows. Narrow the report filters.",
+      );
       const snapshot = await tx.reportSnapshot.create({
         data: {
           tenantId,

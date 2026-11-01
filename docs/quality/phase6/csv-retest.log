@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 /workspace/classpulse
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  20:06:32
+   Duration  498ms (import 55%, transform 27%, setup 15%, tests 2%, worker 1%)
+

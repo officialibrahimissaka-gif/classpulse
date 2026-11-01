@@ -1,0 +1,408 @@
+[
+  {
+    "requirement": "REQ-D001",
+    "title": "Executives dashboard",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Agency-only metric cards/bar/source tables/filters inspected; full visionary dashboards excluded. Snapshot/freshness/manual acceptance remains G01/G03."
+  },
+  {
+    "requirement": "REQ-D004",
+    "title": "Recruiters dashboard",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Agency-only metric cards/bar/source tables/filters inspected; full visionary dashboards excluded. Snapshot/freshness/manual acceptance remains G01/G03."
+  },
+  {
+    "requirement": "REQ-E001",
+    "title": "Entitlement policy conjunction",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E002",
+    "title": "Versioned grants and commercial source",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PARTIAL",
+    "evidence": "Exact accepted-order hash/history/capacity tests pass; real contract/versioned grant/operator approval remains B05/CMP09."
+  },
+  {
+    "requirement": "REQ-E003",
+    "title": "Module state machine",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E004",
+    "title": "Dependency activation and deactivation",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E005",
+    "title": "Read-only, export and retained access",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E006",
+    "title": "Safe deactivation and queued work",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E007",
+    "title": "Retention and reactivation",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PARTIAL",
+    "evidence": "Retained data/reactivation/expiry cleanup local checks; source schedules/scoped holds/complete rights remain B04."
+  },
+  {
+    "requirement": "REQ-E008",
+    "title": "Atomic capacity and usage metering",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E009",
+    "title": "Limits, rate limits and no surprise overage",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PARTIAL",
+    "evidence": "P6-RATE exact limit, HTTP bounds and quota guards pass; agreed usage-meter catalog, production ingress/abuse limits require review."
+  },
+  {
+    "requirement": "REQ-E010",
+    "title": "Trial lifecycle",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PARTIAL",
+    "evidence": "P6-SUB-002 proves effective server read-only/exit; exact UI expiry/affordances, reminders and finalized versioned terms remain G03/CMP09."
+  },
+  {
+    "requirement": "REQ-E011",
+    "title": "Upgrade, downgrade and cancellation",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-E012",
+    "title": "Add-ons, services and compliance packs",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL-BOUNDARY",
+    "evidence": "Five-module release allowlist only; later add-ons/services/legal packs unavailable. Not a service/compliance certification."
+  },
+  {
+    "requirement": "REQ-E013",
+    "title": "Billing events and reconciliation",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL-R1",
+    "evidence": "P6-COM-001/003 and commercial history tests; manual accepted orders only. Automated payment webhook reconciliation excluded."
+  },
+  {
+    "requirement": "REQ-E014",
+    "title": "Cache invalidation and execution enforcement",
+    "source": "ENTITLEMENT_MODEL.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-SUB-001/002, P6-QUOTA-001, commercial and existing module/dependency/retained-data tests; live production binding remains separate."
+  },
+  {
+    "requirement": "REQ-F001",
+    "title": "Accepted-placement entry",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-WF/ISO/INV/SCOPE plus original fixture and browser journey. Applies to tested R1 paths; provider sign-off remains B01/B02."
+  },
+  {
+    "requirement": "REQ-F002",
+    "title": "Owned handoffs and exceptions",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-WF/ISO/INV/SCOPE plus original fixture and browser journey. Applies to tested R1 paths; provider sign-off remains B01/B02."
+  },
+  {
+    "requirement": "REQ-F003",
+    "title": "Scoped client participation and readiness",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-WF/ISO/INV/SCOPE plus original fixture and browser journey. Applies to tested R1 paths; provider sign-off remains B01/B02."
+  },
+  {
+    "requirement": "REQ-F029",
+    "title": "Client accounts and contacts",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PARTIAL",
+    "evidence": "Client creation/list and invited contact references tested; complete contact maintenance/source correction and ownership lifecycle require product acceptance."
+  },
+  {
+    "requirement": "REQ-F038",
+    "title": "Reliable reminders and delivery",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PARTIAL",
+    "evidence": "P6-OPS-001 real queue ambiguity and P6-SUB stop effects pass; daily digest scheduling/local SMTP covered, provider retry/delivery/alert assurance remains B02/G05."
+  },
+  {
+    "requirement": "REQ-F039",
+    "title": "Permission-aware operational reporting",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PARTIAL",
+    "evidence": "P6-MET/EXP and real formats pass; snapshot reuse/freshness/catalog and manual report acceptance remain G01/G03."
+  },
+  {
+    "requirement": "REQ-F040",
+    "title": "Validated CSV placement imports",
+    "source": "FEATURE_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "Atomic CSV conflict/rollback/race, original import tests, browser commit and 1000-row measured reconciliation. Provenance completeness remains G02."
+  },
+  {
+    "requirement": "REQ-K001",
+    "title": "Confirmed starts",
+    "source": "KPI_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-MET-001 hand-calculated boundaries/odd median; original empty/even-cohort fixtures; actual 5000-row artifacts parsed. No production baseline claimed."
+  },
+  {
+    "requirement": "REQ-K002",
+    "title": "On-time start rate",
+    "source": "KPI_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-MET-001 hand-calculated boundaries/odd median; original empty/even-cohort fixtures; actual 5000-row artifacts parsed. No production baseline claimed."
+  },
+  {
+    "requirement": "REQ-K003",
+    "title": "Overdue mandatory tasks",
+    "source": "KPI_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-MET-001 hand-calculated boundaries/odd median; original empty/even-cohort fixtures; actual 5000-row artifacts parsed. No production baseline claimed."
+  },
+  {
+    "requirement": "REQ-K004",
+    "title": "Start slippage",
+    "source": "KPI_CATALOG.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-MET-001 hand-calculated boundaries/odd median; original empty/even-cohort fixtures; actual 5000-row artifacts parsed. No production baseline claimed."
+  },
+  {
+    "requirement": "REQ-L001",
+    "title": "R1 explicit scope",
+    "source": "MVP_SCOPE.md",
+    "status": "PASS-LOCAL-BOUNDARY",
+    "evidence": "R1-only modules/routes; unsupported payroll/payment/webhook mutation returns 404 (P6-HTTP-001)."
+  },
+  {
+    "requirement": "REQ-L002",
+    "title": "Discovery and commercial gate",
+    "source": "MVP_SCOPE.md",
+    "status": "BLOCKED",
+    "evidence": "No independent buyer/artifact/payment/terms evidence supplied; founder/product gate."
+  },
+  {
+    "requirement": "REQ-L003",
+    "title": "Security, retention and recovery gate",
+    "source": "MVP_SCOPE.md",
+    "status": "BLOCKED",
+    "evidence": "B01-B05: independent production identity/security/privacy/restore/provider approvals absent."
+  },
+  {
+    "requirement": "REQ-L004",
+    "title": "End-to-end workflow gate",
+    "source": "MVP_SCOPE.md",
+    "status": "PARTIAL",
+    "evidence": "Journeys distributed across native two-tenant and HTTP/browser cases, not every approved scenario in one monolithic fixture; remaining functional/provider gaps noted."
+  },
+  {
+    "requirement": "REQ-L005",
+    "title": "Capacity and observability gate",
+    "source": "MVP_SCOPE.md",
+    "status": "PARTIAL",
+    "evidence": "Measured workload/race/limits pass locally; production alerts/fault/soak/queue capacity/restore not certified."
+  },
+  {
+    "requirement": "REQ-L006",
+    "title": "Traceability and change control gate",
+    "source": "MVP_SCOPE.md",
+    "status": "PASS-LOCAL",
+    "evidence": "This requirement-to-case matrix, source hashes and final runner logs; original planning TEST catalog not falsely marked fully executed."
+  },
+  {
+    "requirement": "REQ-M001",
+    "title": "platform.core",
+    "source": "MODULE_CATALOG.md",
+    "status": "PASS-LOCAL-R1",
+    "evidence": "Provisioning/release allowlist/dependency/read-only/scope tests; no unimplemented feature inherits a grant."
+  },
+  {
+    "requirement": "REQ-M002",
+    "title": "agency.starts",
+    "source": "MODULE_CATALOG.md",
+    "status": "PASS-LOCAL-R1",
+    "evidence": "Provisioning/release allowlist/dependency/read-only/scope tests; no unimplemented feature inherits a grant."
+  },
+  {
+    "requirement": "REQ-M018",
+    "title": "crm.accounts",
+    "source": "MODULE_CATALOG.md",
+    "status": "PASS-LOCAL-R1",
+    "evidence": "Provisioning/release allowlist/dependency/read-only/scope tests; no unimplemented feature inherits a grant."
+  },
+  {
+    "requirement": "REQ-M023",
+    "title": "platform.analytics",
+    "source": "MODULE_CATALOG.md",
+    "status": "PARTIAL",
+    "evidence": "Limited R1 analytics/CSV behavior exercised; snapshot/catalog/provenance/usage and production clauses require remaining acceptance."
+  },
+  {
+    "requirement": "REQ-M024",
+    "title": "platform.integrations",
+    "source": "MODULE_CATALOG.md",
+    "status": "PARTIAL",
+    "evidence": "Limited R1 analytics/CSV behavior exercised; snapshot/catalog/provenance/usage and production clauses require remaining acceptance."
+  },
+  {
+    "requirement": "REQ-P001",
+    "title": "Tenant isolation",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-ISO-001; original restricted-role/raw RLS and composite FK tests. Compromised-runtime GUC boundary remains documented."
+  },
+  {
+    "requirement": "REQ-P002",
+    "title": "Identity and membership lifecycle",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "Session tamper/revocation/CSRF/logout and P6-AUTH pass; real OIDC/MFA provider assurance blocked (B01)."
+  },
+  {
+    "requirement": "REQ-P003",
+    "title": "Least privilege and field authorization",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "P6-SCOPE, INV, HTTP deny scope/role mixing; exhaustive role/field matrix and dedicated operational roles remain G03/B05."
+  },
+  {
+    "requirement": "REQ-P004",
+    "title": "Audit and accountability",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "Immutable DB audit and added privileged-read/denial evidence; full auth/audit/archive reconciliation remains B05."
+  },
+  {
+    "requirement": "REQ-P005",
+    "title": "Privacy, deletion and retention",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "BLOCKED",
+    "evidence": "Native reviewed erasure/hold tests pass; complete source schedules/rights/scoped holds/external backups remain B04."
+  },
+  {
+    "requirement": "REQ-P006",
+    "title": "Concurrency and reliable commands",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PASS-LOCAL",
+    "evidence": "Original idempotency/stale-version tests; P6-WF-001/COM/QUOTA; no general distributed fault certification."
+  },
+  {
+    "requirement": "REQ-P007",
+    "title": "Localization and accessibility",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "P6-HTTP keyboard/axe/390-768-1440px and Unicode/DST tests; manual AT/locale preference/tagged-PDF review remains G03."
+  },
+  {
+    "requirement": "REQ-P008",
+    "title": "Operational reliability and performance",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "20-user/10k local read/write target passes; 99.5% availability, staging fault/soak and RPO/RTO unverified (B03/G05)."
+  },
+  {
+    "requirement": "REQ-P009",
+    "title": "Secure delivery and secrets",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "P6-AUTH/RATE/HTTP/local file checks and dependency scan pass; actual encryption/IAM/ingress/provider/resource controls blocked (B02)."
+  },
+  {
+    "requirement": "REQ-P010",
+    "title": "SaaS operator access",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "BLOCKED",
+    "evidence": "No support impersonation endpoint; production JIT/tenant-approved operator/identity binding unverified (B05)."
+  },
+  {
+    "requirement": "REQ-P011",
+    "title": "Data provenance and source of truth",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "Source keys, no email merge, conflict rollback and batch actor audit pass; per-record revision/batch/conflict mapping remains G02."
+  },
+  {
+    "requirement": "REQ-P012",
+    "title": "Controlled configuration change",
+    "source": "PRODUCT_REQUIREMENTS_DOCUMENT.md",
+    "status": "PARTIAL",
+    "evidence": "Template revision, immutable original date and module fences pass; remaining full policy/operational change procedures need acceptance."
+  },
+  {
+    "requirement": "REQ-R001",
+    "title": "Permission-preserving query and drill-down",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-ISO/SCOPE/MET/EXP/HTTP and 5000-row strict file reconciliation."
+  },
+  {
+    "requirement": "REQ-R002",
+    "title": "Metric semantics and snapshot consistency",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Central version/hash/bindings tested; one user-visible snapshot reused across formats/dashboard is not exposed (G01)."
+  },
+  {
+    "requirement": "REQ-R003",
+    "title": "Visuals and accessible interaction",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Automatic axe/visual/export/audit tests exist; manual AT/catalog/operational coverage remains G03/B05."
+  },
+  {
+    "requirement": "REQ-R004",
+    "title": "Filters and saved views",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Private/team filters tested; full organizational dimensions/team administration/catalog maintenance limited."
+  },
+  {
+    "requirement": "REQ-R005",
+    "title": "Protected multi-format exports",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Scoped authenticated files/formats/expiry pass; live storage and multi-format snapshot reuse blocked (B02/G01)."
+  },
+  {
+    "requirement": "REQ-R006",
+    "title": "Export content safety and size",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PASS-LOCAL",
+    "evidence": "P6-ISO/SCOPE/MET/EXP/HTTP and 5000-row strict file reconciliation."
+  },
+  {
+    "requirement": "REQ-R009",
+    "title": "Freshness and reconciliation",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "As-of and central fixtures present; automatic bounded cross-user dashboard freshness/monitoring not established (G03/G05)."
+  },
+  {
+    "requirement": "REQ-R010",
+    "title": "Report catalog, limits and audit",
+    "source": "REPORTING_REQUIREMENTS.md",
+    "status": "PARTIAL",
+    "evidence": "Automatic axe/visual/export/audit tests exist; manual AT/catalog/operational coverage remains G03/B05."
+  }
+]

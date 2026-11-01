@@ -1,3 +1,4 @@
+import { hash, canonical } from "@/platform/crypto";
 import { z } from "zod";
 import { randomUUID } from "node:crypto";
 import pg from "pg";
@@ -35,9 +36,20 @@ export async function acceptOrder(connectionString: string, input: unknown) {
         [a.tenantId, a.requestId],
       )
     ).rows[0];
+    const approvalHash = hash(canonical(a));
     if (request?.state === "accepted") {
       if (request.order_reference !== a.orderReference)
         throw Error("Order reference conflict");
+      const prior = (
+        await c.query(
+          "SELECT redacted_changes FROM audit_event WHERE tenant_id=$1 AND action='commercial.order_accepted' AND redacted_changes->>'requestId'=$2 ORDER BY occurred_at DESC LIMIT 1",
+          [a.tenantId, a.requestId],
+        )
+      ).rows[0];
+      if (prior?.redacted_changes?.approvalHash !== approvalHash)
+        throw Error(
+          "Order retry payload conflict or legacy approval requires reconciliation",
+        );
       await c.query("ROLLBACK");
       return;
     }
@@ -48,6 +60,14 @@ export async function acceptOrder(connectionString: string, input: unknown) {
       !["upgrade", "downgrade", "cancel"].includes(request.request_type)
     )
       throw Error("Pending reviewed subscription request required");
+    const reused = await c.query(
+      "SELECT id FROM audit_event WHERE tenant_id=$1 AND action='commercial.order_accepted' AND redacted_changes->>'orderReference'=$2 LIMIT 1",
+      [a.tenantId, a.orderReference],
+    );
+    if (reused.rowCount)
+      throw Error(
+        "Order reference already applied; reconcile instead of processing twice",
+      );
     const current = (
       await c.query(
         "SELECT * FROM subscription WHERE tenant_id=$1 ORDER BY created_at DESC LIMIT 1 FOR UPDATE",
@@ -107,6 +127,8 @@ export async function acceptOrder(connectionString: string, input: unknown) {
         randomUUID(),
         tenant.rows[0].entitlement_revision,
         JSON.stringify({
+          requestId: a.requestId,
+          approvalHash,
           operatorReference: a.operatorReference,
           orderReference: a.orderReference,
           plan: request.plan_key,

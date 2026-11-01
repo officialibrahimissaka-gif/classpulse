@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased — 2026-11-01
+## Unreleased — Phase 6 audit, 2026-11-01
+
+- Fix ten audit finding areas: entity and participant scope, commercial replay, safe positive allocation, 5,000-row export cap and uniform CSV, trusted-ingress throttling, fail-closed production adapters, problem responses and ambiguous digest classification. No schema changes.
+- Add adversarial tenant/security/lifecycle/quota/browser/metric tests; complete gate passes 42 tests plus API/migration/RLS/dependency/build checks.
+- Record controlled 20-user local performance and independently reconciled 5,000-row PDF/CSV/XLSX exports.
+- Add six Phase 6 audit reports and a complete R1 requirement disposition. Release verdict remains **NO-GO** pending documented production and acceptance blockers.
+
+## Phase 5 implementation — 2026-11-01
 
 - Implement the approved R1 agency accepted-placement-to-start workflow as a strict TypeScript modular monolith.
 - Add a 56-model deployable Prisma closure and seven reviewed migrations with non-owner forced tenant RLS, composite keys, integrity checks and immutable history. Preserve the full-vision design schema/OpenAPI.

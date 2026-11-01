@@ -198,6 +198,12 @@ export async function allocate(
   periodKey = "gauge",
   limit?: number,
 ) {
+  check(
+    Number.isSafeInteger(quantity) && quantity > 0,
+    422,
+    "INVALID_QUANTITY",
+    "Allocation quantity must be a positive safe integer.",
+  );
   if (limit !== undefined)
     await tx.usageCounter.upsert({
       where: {

@@ -1,0 +1,172 @@
+
+> classpulse@0.1.0 check
+> npm run format:check && npm run lint && npm run typecheck && npm run test:unit && npm run test:integration && npm run test:e2e && npm run check:api && npm run check:migrations && npm run check:security && npm run build
+
+
+> classpulse@0.1.0 format:check
+> prettier --check src tests scripts *.json *.ts *.mjs .github
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> classpulse@0.1.0 lint
+> eslint src tests scripts
+
+
+> classpulse@0.1.0 typecheck
+> tsc --noEmit
+
+
+> classpulse@0.1.0 test:unit
+> vitest run tests/unit
+
+
+ RUN  v5.0.5 /workspace/classpulse
+
+
+ Test Files  5 passed (5)
+      Tests  13 passed (13)
+   Start at  20:13:04
+   Duration  997ms (import 52%, setup 25%, transform 16%, tests 6%, worker 1%)
+
+
+> classpulse@0.1.0 test:integration
+> vitest run tests/integration --no-file-parallelism
+
+
+ RUN  v5.0.5 /workspace/classpulse
+
+(node:26983) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27043) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27076) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27094) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27133) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27146) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  8 passed (8)
+      Tests  27 passed (27)
+   Start at  20:13:05
+   Duration  11.55s (tests 79%, import 15%, setup 4%, transform 2%)
+
+    Isolate  8 workers spawned · ~97ms startup each (spawn + environment, per file)
+             at least ~681ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+> classpulse@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:27286) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:27297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:27337) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/phase6-security.spec.ts:3:1 › P6-HTTP-001 real HTTP authorization, injection, unsupported webhooks, keyboard and responsive accessibility (4.8s)
+[WebServer] (node:27297) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+  ✓  2 tests/e2e/workflow.spec.ts:3:1 › company setup, client, placement, checklist, readiness, and a confirmed first day (10.9s)
+
+  2 passed (19.4s)
+
+> classpulse@0.1.0 check:api
+> tsx scripts/api-contract.ts --check && node --input-type=module -e "import Parser from '@apidevtools/swagger-parser'; await Parser.validate('api/r1.openapi.yaml'); console.log('R1 API contract valid')"
+
+Generated 37 versioned R1 operations.
+R1 API contract valid
+
+> classpulse@0.1.0 check:migrations
+> tsx scripts/check-migrations.ts && tsx scripts/validate-migrations.ts
+
+Verified 7 immutable migration checksums.
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/r1/schema.prisma.
+Datasource "db": PostgreSQL database "classpulse_check_cd1d61c373054678a2594b87ddd45de8", schema "public" at "127.0.0.1:55432"
+
+7 migrations found in prisma/migrations
+
+Applying migration `202611010001_r1_baseline`
+Applying migration `202611010002_r1_integrity`
+Applying migration `202611010003_retention_role`
+Applying migration `202611010004_privacy_workflow`
+Applying migration `202611010005_ephemeral_retention`
+Applying migration `202611010006_retention_integrity_reads`
+Applying migration `202611010007_retained_overcapacity`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 202611010001_r1_baseline/
+    └─ migration.sql
+  └─ 202611010002_r1_integrity/
+    └─ migration.sql
+  └─ 202611010003_retention_role/
+    └─ migration.sql
+  └─ 202611010004_privacy_workflow/
+    └─ migration.sql
+  └─ 202611010005_ephemeral_retention/
+    └─ migration.sql
+  └─ 202611010006_retention_integrity_reads/
+    └─ migration.sql
+  └─ 202611010007_retained_overcapacity/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+Loaded Prisma config from prisma.config.ts.
+
+No difference detected.
+
+Fresh migration replay, schema drift, and FORCE RLS checks passed.
+
+> classpulse@0.1.0 check:security
+> tsx scripts/security-check.ts && npm audit --omit=dev --audit-level=high
+
+Static security policy checks passed; independent security review is still required.
+found 0 vulnerabilities
+
+> classpulse@0.1.0 build
+> prisma generate && next build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/r1/schema.prisma.
+
+✔ Generated Prisma Client (7.10.1) to ./src/generated/prisma in 620ms
+
+▲ Next.js 16.4.3 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 32ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 300ms
+  Running TypeScript ...
+  Finished TypeScript in 3.4s ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 133ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /api/auth/[action]
+├ ƒ /api/health
+├ ƒ /api/invitation
+├ ƒ /api/v1/[...path]
+├ ƒ /invite
+└ ƒ /workspace
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

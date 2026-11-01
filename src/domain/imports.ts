@@ -7,6 +7,7 @@ import {
   requireModule,
   requirePermission,
   clientScope,
+  requireEntityScope,
 } from "@/platform/policy";
 import { allocate, audit, command, event } from "@/platform/commands";
 import { check } from "@/platform/errors";
@@ -244,6 +245,12 @@ export async function commitImport(
         orderBy: { revision: "desc" },
         include: { fromTaskDefinition_templateVersion: true },
       });
+    for (const permission of [
+      "imports.run",
+      "accounts.write",
+      "placements.write",
+    ])
+      requireEntityScope(ctx, permission, entity.id);
     const existingClients = await tx.clientAccount.findMany({
         where: {
           AND: [

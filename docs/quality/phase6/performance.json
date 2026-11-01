@@ -1,0 +1,70 @@
+{
+  "startedAt": "2026-11-01T20:06:33.538Z",
+  "completedAt": "2026-11-01T20:07:02.434Z",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "architecture": "x64",
+  "reportedCpuCount": 5,
+  "cgroupCpuMax": "400000 100000\n",
+  "cgroupMemoryMax": "34359738368\n",
+  "target": "loopback Next.js development server + native Docker PostgreSQL, Redis and private local storage",
+  "users": 20,
+  "initialPlacements": 10000,
+  "currentActivePlacements": 100,
+  "candidates": 10000,
+  "taskRows": 30000,
+  "seedMs": 14196.878336000002,
+  "coldFirstReadMs": 100.59534899999926,
+  "reads": {
+    "requests": 400,
+    "successes": 400,
+    "failures": 0,
+    "errorRate": 0,
+    "p50": 267.5658990000011,
+    "p95": 363.48393999999826,
+    "max": 472.9532529999997
+  },
+  "writes": {
+    "requests": 60,
+    "successes": 60,
+    "failures": 0,
+    "errorRate": 0,
+    "p50": 372.5297350000001,
+    "p95": 726.6290580000023,
+    "max": 763.0911339999984
+  },
+  "import1000Rows": {
+    "mode": "existing-source reconciliation, no allocations bypassed",
+    "stageMs": 64.92791699999725,
+    "commitMs": 124.12908900000184
+  },
+  "exports": {
+    "csv": {
+      "rows": 5000,
+      "bytes": 469281,
+      "requestMs": 32.79472800000076,
+      "generateMs": 1370.452967000001,
+      "downloadMs": 37.69521000000168,
+      "independentReconciliation": true
+    },
+    "xlsx": {
+      "rows": 5000,
+      "bytes": 162777,
+      "requestMs": 33.665775000001304,
+      "generateMs": 1394.4441259999985,
+      "downloadMs": 33.93425099999877,
+      "independentReconciliation": true
+    },
+    "pdf": {
+      "rows": 5000,
+      "bytes": 270387,
+      "requestMs": 29.35437499999898,
+      "generateMs": 1656.430934,
+      "downloadMs": 47.298515000002226,
+      "independentReconciliation": true
+    }
+  },
+  "queueWaitMeasured": false,
+  "productionCertified": false,
+  "localLatencyTargetPassed": true
+}

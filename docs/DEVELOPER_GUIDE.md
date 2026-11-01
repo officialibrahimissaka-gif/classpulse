@@ -32,10 +32,12 @@ Mutable rows increment `version`; SQL rejects missing increments, changed identi
 
 Production requires HTTPS/OIDC/S3/SES. MFA authorization fails closed unless the configured direct Cognito pool has mandatory MFA, remembered-device configuration is absent, the issuer matches, auth_time is recent and the identity is not federated through an unverified upstream. These live provider assumptions require independent validation. Developer identities never satisfy MFA and cannot run under production NODE_ENV.
 
-Trusted ingress must overwrite X-Real-IP and remove client-supplied identity/forwarding headers before requests reach the application; the rate limiter uses that ingress identity. Set request timeouts and the ingress body cap to match the application envelope. Do not publicly expose database, Redis, Mailpit or worker health ports.
+Trusted ingress must overwrite X-Real-IP and remove client-supplied identity/forwarding headers before requests reach the application; the limiter ignores X-Real-IP by default; set TRUST_INGRESS_IP=true only for the verified private ingress. Set request timeouts and the ingress body cap to match the application envelope. Do not publicly expose database, Redis, Mailpit or worker health ports.
 
 ## Quality and safe change workflow
 
 Confirm linked requirements/acceptance criteria, add a tracked migration, implement policy/use case/API/UI/tests, update trace/status/user docs, then run `npm run check`. Do not mark the original design’s entire acceptance catalog as executed: the mapping distinguishes local evidence, deferred vision, and external release review.
 
 Tests use native PostgreSQL and real local SMTP/storage. No production provider integration is simulated as delivered service. The migration gate replays every migration into a fresh disposable database, checks Prisma drift and FORCE RLS, then drops only that generated test database.
+
+Phase 6 adds fail-closed checks for both NODE_ENV=production and APP_ENV=production, configured provider identifiers and TLS Redis. Export source rows are capped at 5,000 (report exploration remains bounded to 10,000). See TEST_RESULTS.md and SECURITY_AUDIT.md for release disposition.

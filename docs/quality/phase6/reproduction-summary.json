@@ -1,0 +1,36 @@
+[
+  {
+    "source_run": "classpulse-phase6-repro.log",
+    "sha256": "efb0fba485bc16a8dc760a44df816c323efe1f769494e7b387e936e877329778",
+    "failing_secure_expectations": [
+      "P6-SCOPE-001 entity-scoped writers cannot create accounts or placements outside their entity 587ms",
+      "P6-SCOPE-002 participant listing and revocation honor placement scope inside the same tenant 335ms",
+      "P6-COM-001 accepted order retries reject a changed effective-date payload 116ms",
+      "P6-COM-002 allocations reject zero, negative, noninteger and unsafe quantities before changing counters 62ms",
+      "P6-EXP-001 all export formats enforce the approved 5000-row cap 673ms"
+    ],
+    "outcome": "nonzero; reproducible expected-denial or format assertions failed before remediation",
+    "publication_policy": "full rejected result/renderer buffers omitted; no raw source rows or credentials published"
+  },
+  {
+    "source_run": "classpulse-phase6-repro-extra.log",
+    "sha256": "39f424562a90266f30ce91b706dfb5ef491cde583caff719487c19c2e8b7d8a7",
+    "failing_secure_expectations": [
+      "P6-AUTH-001 NODE_ENV=production cannot bypass production controls through APP_ENV=development 11ms",
+      "P6-AUTH-002 production requires provider identifiers and secure Redis rather than adapter labels alone 1ms",
+      "P6-ERR-001 validation errors use the same no-store problem envelope as other errors and omit rejected values 24ms",
+      "P6-RATE-001 rotating untrusted X-Real-IP cannot bypass the authentication limit 147ms"
+    ],
+    "outcome": "nonzero; reproducible expected-denial or format assertions failed before remediation",
+    "publication_policy": "full rejected result/renderer buffers omitted; no raw source rows or credentials published"
+  },
+  {
+    "source_run": "classpulse-phase6-csv-repro.log",
+    "sha256": "4fbe62df2039e0274a530e7bfbfea3446a2525b6bd86982aedfdbe3c678ed444",
+    "failing_secure_expectations": [
+      "P6-EXP-002 CSV report is readable by a strict independent parser without variable column counts 9ms"
+    ],
+    "outcome": "nonzero; reproducible expected-denial or format assertions failed before remediation",
+    "publication_policy": "full rejected result/renderer buffers omitted; no raw source rows or credentials published"
+  }
+]
