@@ -1,0 +1,10 @@
+node_modules
+.next
+src/generated
+generated
+*.md
+openapi.yaml
+prisma
+design
+package-lock.json
+artifacts

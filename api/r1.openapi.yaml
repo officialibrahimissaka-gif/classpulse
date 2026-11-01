@@ -1,0 +1,6011 @@
+openapi: 3.1.0
+info:
+  title: ClassPulse internal R1 API
+  version: 0.1.0
+  description: "Implemented application contract, not a public integration API. UTC timestamps, calendar-date
+    filters inclusive; fixed local bounds: clients/members/views 100 and source report 10,000. Auth routes use
+    OIDC PKCE/state/nonce and sealed identity/invitation cookies; see docs/API_CONTRACT.md."
+servers:
+  - url: http://127.0.0.1:3000
+    description: Local development. Production uses the configured HTTPS origin.
+paths:
+  /api/v1/me:
+    get:
+      operationId: R1-API-001
+      summary: GET /api/v1/me
+      description: "Internal R1 endpoint. Permission: session. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Me"
+        "400": &a1
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "401": &a2
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "403": &a3
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "404": &a4
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "409": &a5
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "412": &a6
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "413": &a7
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "422": &a8
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "428": &a9
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "429": &a10
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500": &a11
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "503": &a12
+          description: Problem response; field paths/codes only, never request values.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+  /api/v1/clients:
+    get:
+      operationId: R1-API-002
+      summary: GET /api/v1/clients
+      description: "Internal R1 endpoint. Permission: accounts.read. Module: crm.accounts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: query
+          name: after
+          required: false
+          schema: &a13
+            type: string
+            format: uuid
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 100
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientList"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+    post:
+      operationId: R1-API-003
+      summary: POST /api/v1/clients
+      description: "Internal R1 endpoint. Permission: accounts.write. Module: crm.accounts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: &a14
+            type: string
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientInput"
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/placements:
+    get:
+      operationId: R1-API-004
+      summary: GET /api/v1/placements
+      description: "Internal R1 endpoint. Permission: placements.read. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: query
+          name: after
+          required: false
+          schema: *a13
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 100
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlacementList"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+    post:
+      operationId: R1-API-005
+      summary: POST /api/v1/placements
+      description: "Internal R1 endpoint. Permission: placements.write. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlacementInput"
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/placements/{id}:
+    get:
+      operationId: R1-API-006
+      summary: GET /api/v1/placements/{id}
+      description: "Internal R1 endpoint. Permission: placements.read. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlacementDetail"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/placements/{id}/actions:
+    post:
+      operationId: R1-API-007
+      summary: POST /api/v1/placements/{id}/actions
+      description: "Internal R1 endpoint. Permission: action-specific permission. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+        - in: header
+          name: If-Match
+          required: true
+          schema:
+            type: string
+            pattern: ^"v[0-9]+"$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlacementAction"
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/reports:
+    get:
+      operationId: R1-API-008
+      summary: GET /api/v1/reports
+      description: "Internal R1 endpoint. Permission: reports.read. Module: platform.analytics + agency.starts.
+        Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: query
+          name: from
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: clientId
+          required: false
+          schema: *a13
+        - in: query
+          name: entityId
+          required: false
+          schema: *a13
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/exports:
+    post:
+      operationId: R1-API-009
+      summary: POST /api/v1/exports
+      description: "Internal R1 endpoint. Permission: reports.export. Module: platform.analytics + agency.starts.
+        Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  $ref: "#/components/schemas/Filters"
+                format:
+                  enum:
+                    - pdf
+                    - csv
+                    - xlsx
+              required:
+                - filters
+                - format
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/exports/{id}:
+    get:
+      operationId: R1-API-010
+      summary: GET /api/v1/exports/{id}
+      description: "Internal R1 endpoint. Permission: reports.export. Module: platform.analytics. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: *a13
+                  state: *a14
+                  errorCode:
+                    type:
+                      - string
+                      - "null"
+                  artifactId: *a13
+                  expiresAt: *a14
+                required:
+                  - id
+                  - state
+                  - errorCode
+                additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/exports/{id}/content:
+    get:
+      operationId: R1-API-011
+      summary: GET /api/v1/exports/{id}/content
+      description: "Internal R1 endpoint. Permission: reports.export. Module: platform.analytics + agency.starts.
+        Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+      responses:
+        "200":
+          description: Authenticated current-scope private artifact; never a presigned URL
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/imports:
+    post:
+      operationId: R1-API-012
+      summary: POST /api/v1/imports
+      description: "Internal R1 endpoint. Permission: imports.run. Module: platform.integrations + agency.starts.
+        Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sourceProfile: *a14
+                csv:
+                  type: string
+                  maxLength: 10485760
+                entityId: *a13
+              required:
+                - sourceProfile
+                - csv
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/imports/{id}:
+    get:
+      operationId: R1-API-013
+      summary: GET /api/v1/imports/{id}
+      description: "Internal R1 endpoint. Permission: imports.run. Module: platform.integrations. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: *a13
+                  state: *a14
+                  rowCount: &a15
+                    type: number
+                  errorCount: *a15
+                  expiresAt: *a14
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rowNumber: *a15
+                        columnKey: *a14
+                        errorCode: *a14
+                      required:
+                        - rowNumber
+                        - columnKey
+                        - errorCode
+                      additionalProperties: false
+                required:
+                  - id
+                  - state
+                  - rowCount
+                  - errorCount
+                  - expiresAt
+                  - errors
+                additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/imports/{id}/commit:
+    post:
+      operationId: R1-API-014
+      summary: POST /api/v1/imports/{id}/commit
+      description: "Internal R1 endpoint. Permission: imports.run + accounts.write + placements.write. Module:
+        platform.integrations + agency.starts. Current tenant/session/role/module/scope checks apply on every
+        request. Lists are bounded; no public integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+              required: []
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/modules:
+    post:
+      operationId: R1-API-015
+      summary: POST /api/v1/modules
+      description: "Internal R1 endpoint. Permission: billing.manage + fresh MFA. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module:
+                  enum:
+                    - crm.accounts
+                    - agency.starts
+                    - platform.analytics
+                    - platform.integrations
+                state:
+                  enum:
+                    - active
+                    - read_only
+                cascade: &a17
+                  type: boolean
+              required:
+                - module
+                - state
+                - cascade
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/invitations:
+    post:
+      operationId: R1-API-016
+      summary: POST /api/v1/invitations
+      description: "Internal R1 endpoint. Permission: participants.manage. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                placementId: *a13
+                name: *a14
+                email:
+                  type: string
+                  format: email
+                taskIds:
+                  type: array
+                  items: *a13
+                sharedFields:
+                  type: array
+                  items:
+                    enum:
+                      - candidate.name
+                      - planned_start
+              required:
+                - placementId
+                - name
+                - email
+                - taskIds
+                - sharedFields
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/participants/{id}:
+    get:
+      operationId: R1-API-017
+      summary: GET /api/v1/participants/{id}
+      description: "Internal R1 endpoint. Permission: participants.manage. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  grants:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: *a13
+                        revokedAt: &a16
+                          type:
+                            - string
+                            - "null"
+                          format: date-time
+                        expiresAt: *a14
+                        contact:
+                          type: object
+                          properties:
+                            displayName: *a14
+                          required:
+                            - displayName
+                          additionalProperties: false
+                      required:
+                        - id
+                        - revokedAt
+                        - expiresAt
+                        - contact
+                      additionalProperties: false
+                  invitations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: *a13
+                        acceptedAt: *a16
+                        expiresAt: *a14
+                        deliveryRows:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              state: *a14
+                            required:
+                              - state
+                            additionalProperties: false
+                      required:
+                        - id
+                        - acceptedAt
+                        - expiresAt
+                        - deliveryRows
+                      additionalProperties: false
+                required:
+                  - grants
+                  - invitations
+                additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/participants/revoke:
+    post:
+      operationId: R1-API-018
+      summary: POST /api/v1/participants/revoke
+      description: "Internal R1 endpoint. Permission: participants.manage. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                grantId: *a13
+              required:
+                - grantId
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/shared:
+    get:
+      operationId: R1-API-019
+      summary: GET /api/v1/shared
+      description: "Internal R1 endpoint. Permission: placement grant. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: *a13
+                    grantId: *a13
+                    status: *a14
+                    candidateName: *a14
+                    plannedStart: *a14
+                    tasks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id: *a13
+                          label: *a14
+                          state: *a14
+                          dueAt: *a14
+                          version: *a15
+                        required:
+                          - id
+                          - label
+                          - state
+                          - dueAt
+                          - version
+                        additionalProperties: false
+                  required:
+                    - id
+                    - grantId
+                    - status
+                    - tasks
+                  additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/shared/complete:
+    post:
+      operationId: R1-API-020
+      summary: POST /api/v1/shared/complete
+      description: "Internal R1 endpoint. Permission: tasks.complete + current assignment. Module: agency.starts.
+        Current tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+        - in: header
+          name: If-Match
+          required: true
+          schema:
+            type: string
+            pattern: ^"v[0-9]+"$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                placementId: *a13
+                taskId: *a13
+                evidence: *a14
+              required:
+                - placementId
+                - taskId
+                - evidence
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/views:
+    get:
+      operationId: R1-API-021
+      summary: GET /api/v1/views
+      description: "Internal R1 endpoint. Permission: reports.read. Module: platform.analytics. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: *a13
+                    name: *a14
+                    visibility: *a14
+                    filterSchema:
+                      $ref: "#/components/schemas/Filters"
+                    teamId:
+                      type:
+                        - string
+                        - "null"
+                  required:
+                    - id
+                    - name
+                    - visibility
+                    - filterSchema
+                    - teamId
+                  additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+    post:
+      operationId: R1-API-022
+      summary: POST /api/v1/views
+      description: "Internal R1 endpoint. Permission: reports.read + explicit team membership. Module:
+        platform.analytics. Current tenant/session/role/module/scope checks apply on every request. Lists are
+        bounded; no public integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: *a14
+                visibility:
+                  enum:
+                    - private
+                    - team
+                filters:
+                  $ref: "#/components/schemas/Filters"
+                teamId: *a13
+              required:
+                - name
+                - visibility
+                - filters
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/teams:
+    get:
+      operationId: R1-API-023
+      summary: GET /api/v1/teams
+      description: "Internal R1 endpoint. Permission: session. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    team:
+                      type: object
+                      properties:
+                        id: *a13
+                        name: *a14
+                      required:
+                        - id
+                        - name
+                      additionalProperties: false
+                  required:
+                    - team
+                  additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/members:
+    get:
+      operationId: R1-API-024
+      summary: GET /api/v1/members
+      description: "Internal R1 endpoint. Permission: tasks.assign. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: *a13
+                    displayName: *a14
+                    status: *a14
+                  required:
+                    - id
+                    - displayName
+                    - status
+                  additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/members/invite:
+    post:
+      operationId: R1-API-025
+      summary: POST /api/v1/members/invite
+      description: "Internal R1 endpoint. Permission: roles.manage + fresh MFA. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: *a14
+                email:
+                  type: string
+                  format: email
+                role:
+                  enum:
+                    - owner
+                    - recruiter
+              required:
+                - name
+                - email
+                - role
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/members/deactivate:
+    post:
+      operationId: R1-API-026
+      summary: POST /api/v1/members/deactivate
+      description: "Internal R1 endpoint. Permission: roles.manage + fresh MFA. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                membershipId: *a13
+              required:
+                - membershipId
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/tasks/assign:
+    post:
+      operationId: R1-API-027
+      summary: POST /api/v1/tasks/assign
+      description: "Internal R1 endpoint. Permission: tasks.assign. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+        - in: header
+          name: If-Match
+          required: true
+          schema:
+            type: string
+            pattern: ^"v[0-9]+"$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                taskId: *a13
+                ownerId: *a13
+              required:
+                - taskId
+                - ownerId
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/template:
+    get:
+      operationId: R1-API-028
+      summary: GET /api/v1/template
+      description: "Internal R1 endpoint. Permission: templates.manage. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revision: *a15
+                  fromTaskDefinition_templateVersion:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        label: *a14
+                        required: *a17
+                        dueOffsetDays: *a15
+                        dueTime: *a14
+                      required:
+                        - label
+                        - required
+                        - dueOffsetDays
+                        - dueTime
+                      additionalProperties: false
+                required:
+                  - revision
+                  - fromTaskDefinition_templateVersion
+                additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+    post:
+      operationId: R1-API-029
+      summary: POST /api/v1/template
+      description: "Internal R1 endpoint. Permission: templates.manage. Module: agency.starts. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tasks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      label: *a14
+                      required: *a17
+                      dueOffsetDays:
+                        type: integer
+                        minimum: -365
+                        maximum: 365
+                      dueTime:
+                        type: string
+                        pattern: ^([01][0-9]|2[0-3]):[0-5][0-9]$
+                    required:
+                      - label
+                      - required
+                      - dueOffsetDays
+                      - dueTime
+                    additionalProperties: false
+              required:
+                - tasks
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/commercial-requests:
+    post:
+      operationId: R1-API-030
+      summary: POST /api/v1/commercial-requests
+      description: "Internal R1 endpoint. Permission: billing.manage. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planKey:
+                  enum:
+                    - starter
+                    - growth
+                reason: *a14
+                requestType:
+                  enum:
+                    - upgrade
+                    - downgrade
+                    - cancel
+              required:
+                - planKey
+                - reason
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/entities:
+    get:
+      operationId: R1-API-031
+      summary: GET /api/v1/entities
+      description: "Internal R1 endpoint. Permission: accounts.read. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: *a13
+                    code: *a14
+                    name: *a14
+                    countryCode: *a14
+                    authorityCode: *a14
+                    timeZone: *a14
+                    defaultCurrency: *a14
+                  required:
+                    - id
+                    - code
+                    - name
+                    - countryCode
+                    - authorityCode
+                    - timeZone
+                    - defaultCurrency
+                  additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+    post:
+      operationId: R1-API-032
+      summary: POST /api/v1/entities
+      description: "Internal R1 endpoint. Permission: tenant.manage + fresh MFA. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code: *a14
+                name: *a14
+                country: *a14
+                authority: *a14
+                timeZone: *a14
+                currency: *a14
+              required:
+                - code
+                - name
+                - country
+                - authority
+                - timeZone
+                - currency
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/privacy:
+    get:
+      operationId: R1-API-033
+      summary: GET /api/v1/privacy
+      description: "Internal R1 endpoint. Permission: privacy.manage. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: *a13
+                        state: *a14
+                        requestType: *a14
+                        dueAt: *a14
+                      required:
+                        - id
+                        - state
+                        - requestType
+                        - dueAt
+                      additionalProperties: false
+                  candidates:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: *a13
+                        displayName: *a14
+                      required:
+                        - id
+                        - displayName
+                      additionalProperties: false
+                  contacts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: *a13
+                        displayName: *a14
+                      required:
+                        - id
+                        - displayName
+                      additionalProperties: false
+                required:
+                  - requests
+                  - candidates
+                  - contacts
+                additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+    post:
+      operationId: R1-API-034
+      summary: POST /api/v1/privacy
+      description: "Internal R1 endpoint. Permission: privacy.manage + fresh MFA. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subjectType:
+                  enum:
+                    - candidate
+                    - contact
+                subjectId: *a13
+                dueOn:
+                  type: string
+                  format: date
+                verificationReference: *a14
+              required:
+                - subjectType
+                - subjectId
+                - dueOn
+                - verificationReference
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/holds:
+    post:
+      operationId: R1-API-035
+      summary: POST /api/v1/holds
+      description: "Internal R1 endpoint. Permission: privacy.manage + fresh MFA. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reasonCode: *a14
+                authorityReference: *a14
+                reviewOn:
+                  type: string
+                  format: date
+              required:
+                - reasonCode
+                - authorityReference
+                - reviewOn
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/audit:
+    get:
+      operationId: R1-API-036
+      summary: GET /api/v1/audit
+      description: "Internal R1 endpoint. Permission: audit.read. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: *a13
+                    action: *a14
+                    resourceType: *a14
+                    resourceId:
+                      type:
+                        - string
+                        - "null"
+                    occurredAt: *a14
+                  required:
+                    - id
+                    - action
+                    - resourceType
+                    - resourceId
+                    - occurredAt
+                  additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/tenants:
+    post:
+      operationId: R1-API-037
+      summary: POST /api/v1/tenants
+      description: "Internal R1 endpoint. Permission: verified identity cookie + exact Origin. Module:
+        platform.core. Current tenant/session/role/module/scope checks apply on every request. Lists are
+        bounded; no public integration API is offered."
+      security:
+        - identity: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Setup"
+      responses:
+        "201":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: *a17
+                required:
+                  - ok
+                additionalProperties: false
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+components:
+  securitySchemes:
+    session:
+      type: apiKey
+      in: cookie
+      name: __Host-cp-session
+      description: Local HTTP uses cp-local-session; never a bearer token.
+    identity:
+      type: apiKey
+      in: cookie
+      name: cp-identity
+  schemas:
+    Setup:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 240
+        slug:
+          type: string
+          pattern: ^[a-z][a-z0-9-]{2,59}$
+        country:
+          type: string
+          pattern: ^[A-Z]{2}$
+        authority:
+          type: string
+          minLength: 2
+          maxLength: 80
+        timeZone:
+          type: string
+        currency:
+          type: string
+          pattern: ^[A-Z]{3}$
+        retentionDays:
+          type: integer
+          minimum: 30
+          maximum: 3650
+        retentionReference:
+          type: string
+          minLength: 10
+          maxLength: 500
+        acknowledged:
+          type: boolean
+          const: true
+      required:
+        - name
+        - slug
+        - country
+        - authority
+        - timeZone
+        - currency
+        - retentionDays
+        - retentionReference
+        - acknowledged
+      additionalProperties: false
+    ClientInput:
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 60
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        entityId:
+          type: string
+          format: uuid
+          pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+      required:
+        - code
+        - name
+      additionalProperties: false
+    PlacementInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+          pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+        candidateName:
+          type: string
+          minLength: 1
+          maxLength: 200
+        candidateKey:
+          type: string
+          minLength: 1
+          maxLength: 160
+        sourceProfile:
+          type: string
+          minLength: 1
+          maxLength: 80
+        sourceKey:
+          type: string
+          minLength: 1
+          maxLength: 160
+        acceptedOn:
+          type: string
+          format: date
+          pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$
+        plannedStart:
+          type: string
+          format: date
+          pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$
+      required:
+        - clientId
+        - candidateName
+        - candidateKey
+        - sourceProfile
+        - sourceKey
+        - acceptedOn
+        - plannedStart
+      additionalProperties: false
+    PlacementAction:
+      oneOf:
+        - type: object
+          properties:
+            action:
+              type: string
+              const: complete
+            taskId:
+              type: string
+              format: uuid
+              pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+            evidence:
+              type: string
+              minLength: 3
+              maxLength: 500
+          required:
+            - action
+            - taskId
+            - evidence
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: waive
+            taskId:
+              type: string
+              format: uuid
+              pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+            reason:
+              type: string
+              minLength: 3
+              maxLength: 300
+          required:
+            - action
+            - taskId
+            - reason
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: ready
+            reason:
+              type: string
+              minLength: 1
+              maxLength: 200
+          required:
+            - action
+            - reason
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: start
+            date:
+              type: string
+              format: date
+              pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$
+            reason:
+              type: string
+              minLength: 1
+              maxLength: 200
+          required:
+            - action
+            - date
+            - reason
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: cancel
+            reason:
+              type: string
+              minLength: 1
+              maxLength: 200
+          required:
+            - action
+            - reason
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: reopen
+            reason:
+              type: string
+              minLength: 1
+              maxLength: 200
+          required:
+            - action
+            - reason
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: reschedule
+            date:
+              type: string
+              format: date
+              pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$
+            reason:
+              type: string
+              minLength: 1
+              maxLength: 200
+          required:
+            - action
+            - date
+            - reason
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: exception
+            category:
+              type: string
+              enum:
+                - candidate
+                - client
+                - documentation
+                - scheduling
+                - other
+          required:
+            - action
+            - category
+          additionalProperties: false
+        - type: object
+          properties:
+            action:
+              type: string
+              const: resolve
+            exceptionId:
+              type: string
+              format: uuid
+              pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+            reason:
+              type: string
+              minLength: 1
+              maxLength: 200
+          required:
+            - action
+            - exceptionId
+            - reason
+          additionalProperties: false
+    Ack:
+      type: object
+      properties:
+        id: *a13
+        version:
+          type: integer
+        state: *a14
+      required:
+        - id
+        - version
+      additionalProperties: false
+    Problem:
+      type: object
+      properties:
+        type: *a14
+        title: *a14
+        status:
+          type: integer
+        code: *a14
+        requestId: *a13
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field: *a14
+              code: *a14
+            required:
+              - field
+              - code
+            additionalProperties: false
+      required:
+        - type
+        - title
+        - status
+        - code
+        - requestId
+      additionalProperties: false
+    Filters:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+        clientId: *a13
+        entityId: *a13
+      required:
+        - from
+        - to
+      additionalProperties: false
+    MetricRow:
+      type: object
+      properties:
+        id: *a13
+        version:
+          type: integer
+        status: *a14
+        original: *a14
+        planned: *a14
+        actual:
+          type:
+            - string
+            - "null"
+        client: *a14
+        candidate: *a14
+        overdue:
+          type: integer
+      required:
+        - id
+        - version
+        - status
+        - original
+        - planned
+        - actual
+        - client
+        - candidate
+        - overdue
+      additionalProperties: false
+    Metrics:
+      type: object
+      properties:
+        confirmedStarts: *a15
+        onTimeRate:
+          type:
+            - number
+            - "null"
+        overdueRequired: *a15
+        medianDelay:
+          type:
+            - number
+            - "null"
+        denominator: *a15
+        unresolved: *a15
+        canceled: *a15
+      required:
+        - confirmedStarts
+        - onTimeRate
+        - overdueRequired
+        - medianDelay
+        - denominator
+        - unresolved
+        - canceled
+      additionalProperties: false
+    Report:
+      type: object
+      properties:
+        asOf: *a14
+        sourceWatermark: *a14
+        filters:
+          $ref: "#/components/schemas/Filters"
+        metrics:
+          $ref: "#/components/schemas/Metrics"
+        drilldowns:
+          type: object
+          additionalProperties:
+            type: array
+            items: *a13
+        distribution:
+          type: object
+          additionalProperties:
+            type: integer
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/MetricRow"
+      required:
+        - asOf
+        - sourceWatermark
+        - filters
+        - metrics
+        - drilldowns
+        - distribution
+        - rows
+      additionalProperties: false
+    Me:
+      type: object
+      properties:
+        name: *a14
+        company: *a14
+        slug: *a14
+        csrf: *a14
+        external: *a17
+        reauthAvailable: *a17
+        permissions:
+          type: array
+          items: *a14
+        modules:
+          type: object
+          additionalProperties: *a14
+        trialEndsAt: *a16
+        subscription:
+          type: object
+          properties:
+            planKey: *a14
+            state: *a14
+          required:
+            - planKey
+            - state
+          additionalProperties: false
+        usage:
+          type: array
+          items:
+            type: object
+            properties:
+              resourceKey: *a14
+              used: *a15
+              hardLimit: *a15
+            required:
+              - resourceKey
+              - used
+              - hardLimit
+            additionalProperties: false
+      required:
+        - name
+        - company
+        - slug
+        - csrf
+        - external
+        - reauthAvailable
+        - permissions
+        - modules
+        - trialEndsAt
+        - subscription
+        - usage
+      additionalProperties: false
+    Tenant:
+      type: object
+      properties:
+        registrationHash:
+          anyOf:
+            - type: string
+            - type: "null"
+        registrationPayloadHash:
+          anyOf:
+            - type: string
+            - type: "null"
+        dataRevision:
+          type: integer
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        name:
+          type: string
+        residencyCell:
+          type: string
+        status:
+          type: string
+        entitlementRevision:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - registrationHash
+        - registrationPayloadHash
+        - dataRevision
+        - id
+        - slug
+        - name
+        - residencyCell
+        - status
+        - entitlementRevision
+        - createdAt
+        - updatedAt
+      additionalProperties: false
+    LegalEntity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        code:
+          type: string
+        name:
+          type: string
+        countryCode:
+          type: string
+        authorityCode:
+          type: string
+        timeZone:
+          type: string
+        defaultCurrency:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - code
+        - name
+        - countryCode
+        - authorityCode
+        - timeZone
+        - defaultCurrency
+      additionalProperties: false
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        code:
+          type: string
+        name:
+          type: string
+        entityId:
+          type: string
+          format: uuid
+        parentId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - code
+        - name
+        - entityId
+        - parentId
+      additionalProperties: false
+    RetentionPolicy:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        recordClass:
+          type: string
+        triggerCode:
+          type: string
+        retentionDays:
+          type: integer
+        policyVersion:
+          type: integer
+        validFrom:
+          type: string
+          format: date-time
+        validTo:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        recordedAt:
+          type: string
+          format: date-time
+        authorityReference:
+          type: string
+        entityId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        reviewerId:
+          type: string
+          format: uuid
+        supersededAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - recordClass
+        - triggerCode
+        - retentionDays
+        - policyVersion
+        - validFrom
+        - validTo
+        - recordedAt
+        - authorityReference
+        - entityId
+        - reviewerId
+        - supersededAt
+      additionalProperties: false
+    LegalHold:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        reasonCode:
+          type: string
+        authorityReference:
+          type: string
+        reviewDueAt:
+          type: string
+          format: date-time
+        releasedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - reasonCode
+        - authorityReference
+        - reviewDueAt
+        - releasedAt
+        - ownerId
+      additionalProperties: false
+    HeldRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        recordType:
+          type: string
+        recordId:
+          type: string
+          format: uuid
+        holdId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - recordType
+        - recordId
+        - holdId
+      additionalProperties: false
+    PrivacyRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        requestType:
+          type: string
+        subjectReferenceHash:
+          type: string
+        state:
+          type: string
+        verifiedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        dueAt:
+          type: string
+          format: date-time
+        completedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - requestType
+        - subjectReferenceHash
+        - state
+        - verifiedAt
+        - dueAt
+        - completedAt
+        - ownerId
+      additionalProperties: false
+    DeletionTombstone:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        recordType:
+          type: string
+        recordId:
+          type: string
+          format: uuid
+        deletedAtEvent:
+          type: string
+          format: date-time
+        reasonCode:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - recordType
+        - recordId
+        - deletedAtEvent
+        - reasonCode
+      additionalProperties: false
+    Principal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        issuer:
+          type: string
+        subject:
+          type: string
+        state:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - issuer
+        - subject
+        - state
+      additionalProperties: false
+    Membership:
+      type: object
+      properties:
+        isExternal:
+          type: boolean
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        status:
+          type: string
+        membershipRevision:
+          type: integer
+        displayName:
+          type: string
+        workEmail:
+          type: string
+        principalId:
+          type: string
+          format: uuid
+      required:
+        - isExternal
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - status
+        - membershipRevision
+        - displayName
+        - workEmail
+        - principalId
+      additionalProperties: false
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        roleKey:
+          type: string
+        name:
+          type: string
+        bundleVersion:
+          type: integer
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - roleKey
+        - name
+        - bundleVersion
+      additionalProperties: false
+    RolePermission:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        permissionKey:
+          type: string
+        roleId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - permissionKey
+        - roleId
+      additionalProperties: false
+    RoleGrant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        scopeType:
+          type: string
+        validFrom:
+          type: string
+          format: date-time
+        expiresAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        revokedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        membershipId:
+          type: string
+          format: uuid
+        roleId:
+          type: string
+          format: uuid
+        entityId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        teamId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        clientId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        placementId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - scopeType
+        - validFrom
+        - expiresAt
+        - revokedAt
+        - membershipId
+        - roleId
+        - entityId
+        - teamId
+        - clientId
+        - placementId
+      additionalProperties: false
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        tokenHash:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        idleExpiresAt:
+          type: string
+          format: date-time
+        revokedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        lastMfaAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        membershipRevision:
+          type: integer
+        membershipId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - tokenHash
+        - expiresAt
+        - idleExpiresAt
+        - revokedAt
+        - lastMfaAt
+        - membershipRevision
+        - membershipId
+      additionalProperties: false
+    Invitation:
+      type: object
+      properties:
+        recipientCiphertext:
+          type: string
+        revokedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        taskIds: {}
+        sharedFields: {}
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        tokenHash:
+          type: string
+        emailHash:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        acceptedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        scopeType:
+          type: string
+        roleId:
+          type: string
+          format: uuid
+        inviterId:
+          type: string
+          format: uuid
+        placementId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        contactId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - recipientCiphertext
+        - revokedAt
+        - taskIds
+        - sharedFields
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - tokenHash
+        - emailHash
+        - expiresAt
+        - acceptedAt
+        - scopeType
+        - roleId
+        - inviterId
+        - placementId
+        - contactId
+      additionalProperties: false
+    ClientAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        accountCode:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        entityId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - accountCode
+        - name
+        - status
+        - entityId
+        - ownerId
+      additionalProperties: false
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        displayName:
+          type: string
+        workEmail:
+          anyOf:
+            - type: string
+            - type: "null"
+        workPhone:
+          anyOf:
+            - type: string
+            - type: "null"
+        clientId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - displayName
+        - workEmail
+        - workPhone
+        - clientId
+        - ownerId
+      additionalProperties: false
+    Candidate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        sourceProfile:
+          type: string
+        sourceKey:
+          type: string
+        displayName:
+          type: string
+        workEmail:
+          anyOf:
+            - type: string
+            - type: "null"
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - sourceProfile
+        - sourceKey
+        - displayName
+        - workEmail
+        - ownerId
+      additionalProperties: false
+    WorkflowTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        templateKey:
+          type: string
+        name:
+          type: string
+        moduleKey:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - templateKey
+        - name
+        - moduleKey
+      additionalProperties: false
+    TemplateVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        state:
+          type: string
+        publishedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        templateId:
+          type: string
+          format: uuid
+        publisherId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - state
+        - publishedAt
+        - templateId
+        - publisherId
+      additionalProperties: false
+    TaskDefinition:
+      type: object
+      properties:
+        dueTime:
+          type: string
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        taskKey:
+          type: string
+        label:
+          type: string
+        milestoneKey:
+          type: string
+        sortOrder:
+          type: integer
+        dueOffsetDays:
+          type: integer
+        templateVersionId:
+          type: string
+          format: uuid
+      required:
+        - dueTime
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - taskKey
+        - label
+        - milestoneKey
+        - sortOrder
+        - dueOffsetDays
+        - templateVersionId
+      additionalProperties: false
+    Placement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        status:
+          type: string
+        acceptedOn:
+          type: string
+          format: date-time
+        originalPlannedStart:
+          type: string
+          format: date-time
+        currentPlannedStart:
+          type: string
+          format: date-time
+        actualStart:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        timeZone:
+          type: string
+        sourceProfile:
+          type: string
+        sourceKey:
+          type: string
+        entityId:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        candidateId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        templateVersionId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - status
+        - acceptedOn
+        - originalPlannedStart
+        - currentPlannedStart
+        - actualStart
+        - timeZone
+        - sourceProfile
+        - sourceKey
+        - entityId
+        - clientId
+        - candidateId
+        - ownerId
+        - templateVersionId
+      additionalProperties: true
+    PlacementDateRevision:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        previousDate:
+          type: string
+          format: date-time
+        newDate:
+          type: string
+          format: date-time
+        reasonCode:
+          type: string
+        changedAt:
+          type: string
+          format: date-time
+        placementId:
+          type: string
+          format: uuid
+        actorId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - previousDate
+        - newDate
+        - reasonCode
+        - changedAt
+        - placementId
+        - actorId
+      additionalProperties: false
+    Milestone:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        milestoneKey:
+          type: string
+        label:
+          type: string
+        sortOrder:
+          type: integer
+        placementId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - milestoneKey
+        - label
+        - sortOrder
+        - placementId
+      additionalProperties: false
+    PlacementTask:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        label:
+          type: string
+        state:
+          type: string
+        dueAt:
+          type: string
+          format: date-time
+        completedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        waiverReason:
+          anyOf:
+            - type: string
+            - type: "null"
+        placementId:
+          type: string
+          format: uuid
+        milestoneId:
+          type: string
+          format: uuid
+        definitionId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        completedById:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        completionEvidenceReference:
+          anyOf:
+            - type: string
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - label
+        - state
+        - dueAt
+        - completedAt
+        - waiverReason
+        - placementId
+        - milestoneId
+        - definitionId
+        - ownerId
+        - completedById
+        - completionEvidenceReference
+      additionalProperties: false
+    PlacementException:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        category:
+          type: string
+        state:
+          type: string
+        openedAt:
+          type: string
+          format: date-time
+        closedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        resolutionCode:
+          anyOf:
+            - type: string
+            - type: "null"
+        placementId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - category
+        - state
+        - openedAt
+        - closedAt
+        - resolutionCode
+        - placementId
+        - ownerId
+      additionalProperties: false
+    ParticipantGrant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        expiresAt:
+          type: string
+          format: date-time
+        revokedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        canCompleteAssignedTasks:
+          type: boolean
+        placementId:
+          type: string
+          format: uuid
+        contactId:
+          type: string
+          format: uuid
+        membershipId:
+          type: string
+          format: uuid
+        grantedById:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - expiresAt
+        - revokedAt
+        - canCompleteAssignedTasks
+        - placementId
+        - contactId
+        - membershipId
+        - grantedById
+      additionalProperties: false
+    SharedField:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        fieldKey:
+          type: string
+        grantId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - fieldKey
+        - grantId
+      additionalProperties: false
+    ReadinessDecision:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        decision:
+          type: string
+        reasonCode:
+          type: string
+        placementVersion:
+          type: integer
+        decidedAt:
+          type: string
+          format: date-time
+        placementId:
+          type: string
+          format: uuid
+        actorId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - decision
+        - reasonCode
+        - placementVersion
+        - decidedAt
+        - placementId
+        - actorId
+      additionalProperties: false
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        planKey:
+          type: string
+        state:
+          type: string
+        effectiveAt:
+          type: string
+          format: date-time
+        endsAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        trialEndsAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        orderReference:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - planKey
+        - state
+        - effectiveAt
+        - endsAt
+        - trialEndsAt
+        - orderReference
+      additionalProperties: false
+    ModuleActivation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        moduleKey:
+          type: string
+        state:
+          type: string
+        entitlementRevision:
+          type: integer
+        everActivated:
+          type: boolean
+        changedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - moduleKey
+        - state
+        - entitlementRevision
+        - everActivated
+        - changedAt
+      additionalProperties: false
+    EntitlementGrant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        grantKey:
+          type: string
+        grantType:
+          type: string
+        limitValue:
+          anyOf:
+            - type: string
+            - type: "null"
+        sourceCode:
+          type: string
+        effectiveAt:
+          type: string
+          format: date-time
+        expiresAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        subscriptionId:
+          type: string
+          format: uuid
+        approverId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - grantKey
+        - grantType
+        - limitValue
+        - sourceCode
+        - effectiveAt
+        - expiresAt
+        - subscriptionId
+        - approverId
+      additionalProperties: false
+    UsageCounter:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        resourceKey:
+          type: string
+        periodKey:
+          type: string
+        used:
+          type: string
+        reserved:
+          type: string
+        hardLimit:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - resourceKey
+        - periodKey
+        - used
+        - reserved
+        - hardLimit
+      additionalProperties: false
+    UsageReservation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        operationKey:
+          type: string
+        state:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        counterId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - operationKey
+        - state
+        - expiresAt
+        - counterId
+      additionalProperties: false
+    UsageEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        operationKey:
+          type: string
+        eventType:
+          type: string
+        occurredAt:
+          type: string
+          format: date-time
+        counterId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - operationKey
+        - eventType
+        - occurredAt
+        - counterId
+      additionalProperties: false
+    MetricDefinition:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        metricKey:
+          type: string
+        sourceModule:
+          type: string
+        definitionHash:
+          type: string
+        state:
+          type: string
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - metricKey
+        - sourceModule
+        - definitionHash
+        - state
+      additionalProperties: false
+    SavedView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        name:
+          type: string
+        visibility:
+          type: string
+        filterSchema: {}
+        timeZone:
+          type: string
+        schemaVersion:
+          type: integer
+        ownerId:
+          type: string
+          format: uuid
+        teamId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - name
+        - visibility
+        - filterSchema
+        - timeZone
+        - schemaVersion
+        - ownerId
+        - teamId
+      additionalProperties: false
+    ReportSnapshot:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        asOf:
+          type: string
+          format: date-time
+        sourceWatermark:
+          type: string
+          format: date-time
+        scopeHash:
+          type: string
+        entitlementRevision:
+          type: integer
+        metricVersions: {}
+        filterSchema: {}
+        timeZone:
+          type: string
+        currencyPolicy:
+          type: string
+        snapshotHash:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        requesterId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - asOf
+        - sourceWatermark
+        - scopeHash
+        - entitlementRevision
+        - metricVersions
+        - filterSchema
+        - timeZone
+        - currencyPolicy
+        - snapshotHash
+        - expiresAt
+        - requesterId
+      additionalProperties: false
+    ExportArtifact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        format:
+          type: string
+        state:
+          type: string
+        objectKey:
+          type: string
+        objectVersion:
+          type: string
+        contentHash:
+          type: string
+        rowCount:
+          type: integer
+        classification:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        snapshotId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - format
+        - state
+        - objectKey
+        - objectVersion
+        - contentHash
+        - rowCount
+        - classification
+        - expiresAt
+        - snapshotId
+        - ownerId
+      additionalProperties: false
+    DownloadGrant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        tokenHash:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        scopeHash:
+          type: string
+        artifactId:
+          type: string
+          format: uuid
+        membershipId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - tokenHash
+        - expiresAt
+        - scopeHash
+        - artifactId
+        - membershipId
+      additionalProperties: false
+    ImportBatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        sourceProfile:
+          type: string
+        sourceHash:
+          type: string
+        idempotencyKey:
+          type: string
+        state:
+          type: string
+        rowCount:
+          type: integer
+        errorCount:
+          type: integer
+        stagingObjectKey:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        requesterId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - sourceProfile
+        - sourceHash
+        - idempotencyKey
+        - state
+        - rowCount
+        - errorCount
+        - stagingObjectKey
+        - expiresAt
+        - requesterId
+      additionalProperties: false
+    ImportError:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        rowNumber:
+          type: integer
+        columnKey:
+          type: string
+        errorCode:
+          type: string
+        batchId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - rowNumber
+        - columnKey
+        - errorCode
+        - batchId
+      additionalProperties: false
+    IdempotencyRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        operationType:
+          type: string
+        idempotencyKey:
+          type: string
+        payloadHash:
+          type: string
+        state:
+          type: string
+        resourceType:
+          anyOf:
+            - type: string
+            - type: "null"
+        resourceId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        expiresAt:
+          type: string
+          format: date-time
+        actorId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - operationType
+        - idempotencyKey
+        - payloadHash
+        - state
+        - resourceType
+        - resourceId
+        - expiresAt
+        - actorId
+      additionalProperties: false
+    OutboxEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        eventType:
+          type: string
+        schemaVersion:
+          type: integer
+        aggregateType:
+          type: string
+        aggregateId:
+          type: string
+          format: uuid
+        aggregateVersion:
+          type: integer
+        occurredAt:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+          format: uuid
+        dispatchedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - eventType
+        - schemaVersion
+        - aggregateType
+        - aggregateId
+        - aggregateVersion
+        - occurredAt
+        - correlationId
+        - dispatchedAt
+      additionalProperties: false
+    InboxEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        consumerKey:
+          type: string
+        externalEventKey:
+          type: string
+        payloadHash:
+          type: string
+        state:
+          type: string
+        receivedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - consumerKey
+        - externalEventKey
+        - payloadHash
+        - state
+        - receivedAt
+      additionalProperties: false
+    BackgroundJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        operationKey:
+          type: string
+        jobType:
+          type: string
+        moduleKey:
+          type: string
+        resourceType:
+          type: string
+        resourceId:
+          type: string
+          format: uuid
+        state:
+          type: string
+        attemptCount:
+          type: integer
+        availableAt:
+          type: string
+          format: date-time
+        leaseExpiresAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        lastErrorCode:
+          anyOf:
+            - type: string
+            - type: "null"
+        principalId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - operationKey
+        - jobType
+        - moduleKey
+        - resourceType
+        - resourceId
+        - state
+        - attemptCount
+        - availableAt
+        - leaseExpiresAt
+        - lastErrorCode
+        - principalId
+      additionalProperties: false
+    NotificationDelivery:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        operationKey:
+          type: string
+        channel:
+          type: string
+        state:
+          type: string
+        providerReference:
+          anyOf:
+            - type: string
+            - type: "null"
+        attemptedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deliveredAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        jobId:
+          type: string
+          format: uuid
+        recipientId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - operationKey
+        - channel
+        - state
+        - providerReference
+        - attemptedAt
+        - deliveredAt
+        - jobId
+        - recipientId
+      additionalProperties: false
+    AuditEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        action:
+          type: string
+        resourceType:
+          type: string
+        resourceId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        occurredAt:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+          format: uuid
+        membershipRevision:
+          type: integer
+        entitlementRevision:
+          type: integer
+        reasonCode:
+          anyOf:
+            - type: string
+            - type: "null"
+        redactedChanges: {}
+        actorId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - action
+        - resourceType
+        - resourceId
+        - occurredAt
+        - correlationId
+        - membershipRevision
+        - entitlementRevision
+        - reasonCode
+        - redactedChanges
+        - actorId
+      additionalProperties: false
+    PlacementTransition:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        fromStatus:
+          type: string
+        toStatus:
+          type: string
+        fromVersion:
+          type: integer
+        toVersion:
+          type: integer
+        actualStart:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        previousActualStart:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        reasonCode:
+          type: string
+        occurredAt:
+          type: string
+          format: date-time
+        placementId:
+          type: string
+          format: uuid
+        actorId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - fromStatus
+        - toStatus
+        - fromVersion
+        - toVersion
+        - actualStart
+        - previousActualStart
+        - reasonCode
+        - occurredAt
+        - placementId
+        - actorId
+      additionalProperties: false
+    ReportMetricBinding:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        definitionHash:
+          type: string
+        snapshotId:
+          type: string
+          format: uuid
+        metricId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - definitionHash
+        - snapshotId
+        - metricId
+      additionalProperties: false
+    ReportResultRow:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        rowKey:
+          type: string
+        sourceType:
+          type: string
+        sourceId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+        sourceVersion:
+          anyOf:
+            - type: integer
+            - type: "null"
+        classification:
+          type: string
+        snapshotId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - rowKey
+        - sourceType
+        - sourceId
+        - sourceVersion
+        - classification
+        - snapshotId
+      additionalProperties: false
+    ContactMembershipLink:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        verifiedAt:
+          type: string
+          format: date-time
+        contactId:
+          type: string
+          format: uuid
+        membershipId:
+          type: string
+          format: uuid
+        verifiedById:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - verifiedAt
+        - contactId
+        - membershipId
+        - verifiedById
+      additionalProperties: false
+    ReportRun:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        state:
+          type: string
+        filterSchema: {}
+        errorCode:
+          anyOf:
+            - type: string
+            - type: "null"
+        requesterId:
+          type: string
+          format: uuid
+        snapshotId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - state
+        - filterSchema
+        - errorCode
+        - requesterId
+        - snapshotId
+      additionalProperties: false
+    InvitationDelivery:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        invitationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+        providerReference:
+          anyOf:
+            - type: string
+            - type: "null"
+        attemptedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - invitationId
+        - state
+        - providerReference
+        - attemptedAt
+      additionalProperties: false
+    CommercialChangeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archivedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        deletedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        planKey:
+          type: string
+        requestType:
+          type: string
+        state:
+          type: string
+        reason:
+          type: string
+        orderReference:
+          anyOf:
+            - type: string
+            - type: "null"
+        requesterId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - archivedAt
+        - deletedAt
+        - planKey
+        - requestType
+        - state
+        - reason
+        - orderReference
+        - requesterId
+      additionalProperties: false
+    TeamMembership:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        membershipId:
+          type: string
+          format: uuid
+        teamId:
+          type: string
+          format: uuid
+        revokedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+      required:
+        - id
+        - tenantId
+        - version
+        - createdAt
+        - updatedAt
+        - membershipId
+        - teamId
+        - revokedAt
+      additionalProperties: false
+    ClientList:
+      type: array
+      items:
+        type: object
+        properties:
+          id: *a13
+          name: *a14
+          accountCode: *a14
+          version:
+            type: integer
+        required:
+          - id
+          - name
+          - accountCode
+          - version
+        additionalProperties: false
+    PlacementList:
+      type: array
+      items:
+        type: object
+        properties:
+          id: *a13
+          status: *a14
+          timeZone: *a14
+          originalPlannedStart: *a14
+          currentPlannedStart: *a14
+          actualStart: *a16
+          version:
+            type: integer
+          candidate:
+            type: object
+            properties:
+              displayName: *a14
+            required:
+              - displayName
+            additionalProperties: false
+          client:
+            type: object
+            properties:
+              name: *a14
+            required:
+              - name
+            additionalProperties: false
+          fromPlacementTask_placement:
+            type: array
+            items:
+              type: object
+              properties:
+                state: *a14
+                required: *a17
+                dueAt: *a14
+              required:
+                - state
+                - required
+                - dueAt
+              additionalProperties: false
+        required:
+          - id
+          - status
+          - timeZone
+          - originalPlannedStart
+          - currentPlannedStart
+          - actualStart
+          - version
+          - candidate
+          - client
+          - fromPlacementTask_placement
+        additionalProperties: false
+    PlacementDetail:
+      allOf:
+        - $ref: "#/components/schemas/Placement"
+        - type: object
+          properties:
+            candidate:
+              $ref: "#/components/schemas/Candidate"
+            client:
+              $ref: "#/components/schemas/ClientAccount"
+            fromPlacementTask_placement:
+              type: array
+              items:
+                $ref: "#/components/schemas/PlacementTask"
+            fromPlacementException_placement:
+              type: array
+              items:
+                $ref: "#/components/schemas/PlacementException"
+            fromPlacementTransition_placement:
+              type: array
+              items:
+                $ref: "#/components/schemas/PlacementTransition"

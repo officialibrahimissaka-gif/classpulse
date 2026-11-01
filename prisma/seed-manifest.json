@@ -1,0 +1,86 @@
+{
+  "kind": "design-only-seed-manifest",
+  "version": 1,
+  "generatedOn": "2026-11-01",
+  "productionExecutionAllowed": false,
+  "moduleKeys": [
+    "platform.core",
+    "agency.starts",
+    "hr.records",
+    "hr.leave",
+    "hr.lifecycle",
+    "hr.benefits",
+    "talent.ats",
+    "payroll.inputs",
+    "payroll.engine",
+    "workforce.time",
+    "workforce.schedule",
+    "experience.portal",
+    "experience.engagement",
+    "talent.performance",
+    "talent.learning",
+    "talent.compensation",
+    "talent.succession",
+    "crm.accounts",
+    "crm.sales",
+    "crm.success",
+    "crm.support",
+    "platform.automation",
+    "platform.analytics",
+    "platform.integrations",
+    "compliance.country",
+    "compliance.uae"
+  ],
+  "defaultOptionalModuleState": "unavailable",
+  "r1EligibleModules": [
+    "platform.core",
+    "crm.accounts",
+    "agency.starts",
+    "platform.analytics",
+    "platform.integrations"
+  ],
+  "countryPacks": [
+    {
+      "key": "compliance.pack.ae.mainland",
+      "state": "unavailable",
+      "rules": []
+    },
+    {
+      "key": "compliance.pack.ae.difc",
+      "state": "unavailable",
+      "rules": []
+    },
+    {
+      "key": "compliance.pack.ae.adgm",
+      "state": "unavailable",
+      "rules": []
+    }
+  ],
+  "plans": [
+    {
+      "key": "plan.trial",
+      "trialDays": 14,
+      "internalSeats": 5,
+      "activePlacements": 25,
+      "autoCharge": false
+    },
+    {
+      "key": "plan.agency_starter",
+      "internalSeats": 10,
+      "activePlacements": 100
+    },
+    {
+      "key": "plan.agency_growth",
+      "internalSeats": 30,
+      "activePlacements": 500
+    }
+  ],
+  "r1MetricKeys": [
+    "kpi.001",
+    "kpi.002",
+    "kpi.003",
+    "kpi.004"
+  ],
+  "realPeople": [],
+  "providerCredentials": []
+}

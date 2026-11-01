@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: classpulse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run scripts/local-env.ts first}
+    ports: ["127.0.0.1:55432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d classpulse"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  redis:
+    image: redis:7.2-alpine
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports: ["127.0.0.1:56379:6379"]
+    volumes: ["redisdata:/data"]
+  mail:
+    image: axllent/mailpit:v1.27
+    ports: ["127.0.0.1:11025:1025", "127.0.0.1:18025:8025"]
+volumes:
+  pgdata:
+  redisdata:
