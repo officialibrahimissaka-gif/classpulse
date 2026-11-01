@@ -1,16 +1,20 @@
 # Your ClassPulse delivery
 
-The work is currently in the cloud workspace at `/workspace/classpulse`. It has not been committed/pushed to GitHub. Publishing an environment configuration does not publish the app or transfer these source files to GitHub.
+The source and documentation are now uploaded to GitHub on branch `codex/classpulse-mvp-review`. The `main` branch is unchanged. Uploading source does not deploy a running application.
 
 ## Files
 
-`classpulse-source.zip` contains the actual application source, Phase 0–4 documents, database schema/migrations, API contract, tests, design specifications and developer/user guides. It excludes private local configuration, credentials, database contents, dependencies, caches and build output.
+[Browse the files](https://github.com/officialibrahimissaka-gif/classpulse/tree/codex/classpulse-mvp-review) or [download this branch as a ZIP](https://github.com/officialibrahimissaka-gif/classpulse/archive/refs/heads/codex/classpulse-mvp-review.zip). On GitHub, select `codex/classpulse-mvp-review` before using **Code → Download ZIP**.
 
-Unzip it and open the `classpulse` folder in VS Code or another editor. Start with `README.md`, `DEVELOPMENT_STATUS.md`, `docs/USER_GUIDE.md`, and `KNOWN_LIMITATIONS.md`.
+The branch contains the actual application source, Phase 0–4 documents, database schema/migrations, API contract, tests, design specifications and developer/user guides. Private local configuration, credentials, database contents, dependencies, caches and build output are excluded.
+
+[View actual application screenshots](docs/PREVIEW.md). These are screenshots of the running development application with synthetic data, not an interactive deployment.
+
+Unzip it and open the extracted folder containing `package.json` in VS Code or another editor. Start with `README.md`, `DEVELOPMENT_STATUS.md`, `docs/USER_GUIDE.md`, and `KNOWN_LIMITATIONS.md`.
 
 ## Run it on your own computer
 
-Install Node.js 24 and Docker Desktop first. Start Docker Desktop. Open a terminal in the extracted `classpulse` folder:
+Install Node.js 24 and Docker Desktop first. Start Docker Desktop. Open a terminal in the extracted folder containing `package.json`:
 
 ```bash
 npm ci
@@ -50,6 +54,6 @@ npm run check
 
 The recorded suite passes 8 unit tests, 12 native PostgreSQL integration tests and one complete browser journey, plus formatting, lint, types, API/migration/security/build checks. You still need to review the actual workflow and give product feedback; automated checks are not your acceptance.
 
-## If downloads or cloud previews are unavailable in your chat
+## Live browser preview
 
-This environment does not expose a public preview URL automatically. Access requires your interface's file-download/port-preview feature, or transferring the prepared files to your GitHub repository. No public tunnel, GitHub push, environment publication or production deployment has been performed.
+The source upload is complete, but the application is not deployed to a public URL. This environment-setup chat does not provide interactive web previews. Follow the local run instructions above to test the app. A hosted private preview requires a separate hosting and authentication setup; no public tunnel or production deployment has been performed.
