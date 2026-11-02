@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Discovery kickoff/revalidation, 2026-11-02
+
+- Add six docs/product discovery artifacts: charter, current market/segment/problem evidence, competitor pricing matrix, interview guide, ranked MVP hypotheses and 30-day validation plan.
+- Record fresh official government/vendor/review source outcomes, dated qualified pricing, nonrepresentative review evidence and explicit unknowns; no invented customer validation.
+- Prioritize discovery before further features; preserve the implemented prototype, historical 56-test evidence and production NO-GO. No application/schema changes, outreach or deployment.
+
 ## Unreleased — Project continuation, 2026-11-02
 
 - Reconstruct five missing project-management records from existing requirements, decisions and actual evidence; retain NO-GO and prioritize R1 release gaps.

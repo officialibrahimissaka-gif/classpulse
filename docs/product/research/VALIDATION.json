@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-02",
+  "baseline": "7f7decb0b54b1733d75b5290ed583185714aa0a2",
+  "scope": "documentation-only discovery kickoff/revalidation",
+  "requiredDocuments": [
+    "PROJECT_CHARTER.md",
+    "MARKET_RESEARCH.md",
+    "COMPETITOR_ANALYSIS.md",
+    "CUSTOMER_INTERVIEW_PLAN.md",
+    "MVP_OPTIONS.md",
+    "30_DAY_VALIDATION_PLAN.md"
+  ],
+  "sourceAttempts": 36,
+  "retrievedPublicPages": 21,
+  "unavailableAttempts": 15,
+  "localLinksChecked": 11,
+  "brokenLocalLinks": [],
+  "mvpJudgmentScores": [
+    3.6,
+    2.8,
+    2.7
+  ],
+  "primaryOrganizationTarget": 18,
+  "independentCustomerInterviewsConducted": 0,
+  "conditionalPaidCommitmentsCollected": 0,
+  "applicationFilesChanged": false,
+  "schemaChanged": false,
+  "engineeringSuiteRerun": false,
+  "historicalEngineeringEvidence": "56 tests at 7f7decb; not new discovery evidence",
+  "deployment": false,
+  "outreach": false,
+  "productionRelease": "NO_GO"
+}

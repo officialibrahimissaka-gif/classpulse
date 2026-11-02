@@ -13,3 +13,7 @@
 | CONT-D007 | Preserve NO-GO and test-only Ghana Paystack/GHS path | Founder merchant/currency preference persists, but no cloud/secret/outbound identity is bound in the replacement environment and no production gates are closed by this work |
 
 Original choices retained: modular monolith; deployable R1 schema separate from full vision; forced RLS/nonowner runtime; tenant write fence; central versioned KPIs; distinct maintenance/operator paths; no production payroll; AWS UAE proposed first cell; reviewed orders independent from test payment observations. See the original ADRs for trade-offs.
+
+## D01 kickoff — 2 November 2026
+
+**D01-D001:** Current founder instruction prioritizes a UAE-first/global-later discovery foundation before further feature work. The six docs/product artifacts revalidate segments and alternatives using freshly retrieved official/vendor/review sources; no customer demand or legal readiness is inferred. Existing R1 code/history is preserved, CONT-T002 is paused pending the Day-30 evidence/selection decision, and release NO-GO remains independent. This supersedes the earlier immediate internal-task priority, not its historical implementation/acceptance records.
