@@ -29,3 +29,9 @@ COPY --from=build --chown=node:node /app/assets ./assets
 USER node
 EXPOSE 3001
 CMD ["node","dist/worker.mjs"]
+
+# One-off migration image: tooling is isolated from web/worker runtime images.
+FROM build AS operations
+ENV NODE_ENV=production
+USER node
+CMD ["node_modules/.bin/prisma", "migrate", "deploy"]

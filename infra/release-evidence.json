@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "decision": "NO_GO",
+  "target": "staging",
+  "sourceCommit": null,
+  "images": {
+    "web": null,
+    "worker": null,
+    "operations": null
+  },
+  "gates": {
+    "quality": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "identity": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "infrastructure": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "recovery": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "legal_privacy": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "operator_audit": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "requirements": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "customer_validation": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "billing": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    },
+    "on_call": {
+      "status": "blocked",
+      "evidence": null,
+      "approver": null
+    }
+  }
+}

@@ -41,3 +41,22 @@ Confirm linked requirements/acceptance criteria, add a tracked migration, implem
 Tests use native PostgreSQL and real local SMTP/storage. No production provider integration is simulated as delivered service. The migration gate replays every migration into a fresh disposable database, checks Prisma drift and FORCE RLS, then drops only that generated test database.
 
 Phase 6 adds fail-closed checks for both NODE_ENV=production and APP_ENV=production, configured provider identifiers and TLS Redis. Export source rows are capped at 5,000 (report exploration remains bounded to 10,000). See TEST_RESULTS.md and SECURITY_AUDIT.md for release disposition.
+
+## Phase 7 commercial and deployment increment
+
+`/pricing` renders the centrally defined proposed GHS catalog. `/billing` reads owner-authorized `/api/v1/billing` (no-store, current tenant/session, `billing.manage`, audited inspection); it is a test payment observation view, not an invoice ledger. The eighth migration adds forced-RLS `billing_connection` and `billing_payment`; runtime may only SELECT. `app_billing_importer` cannot read subscriptions, grant entitlements or change bound customers/amount/currency. Neither new table accepts card details. Payment references and commercial observations are confidential financial metadata; their retention/rights/audit classification needs legal/data review before live use.
+
+Paystack key material is never an argument, checked-in configuration or browser variable. Configure `PAYSTACK_SECRET_KEY` through a secure isolated test-job secret binding; only `sk_test_…` is accepted. No key was available or used in this phase. The following commands use **private** files, never repository fixtures containing real customer data:
+
+```bash
+npx tsx scripts/create-test-checkout.ts /private/reviewed-checkout.json /private/new-test-checkout.json
+npm run billing:sync -- /private/reviewed-payment.json
+```
+
+Checkout input: customerEmail, planCode (`PLN_…`), unique reference, positive safe-integer expectedAmountMinor, currency `GHS`. A Paystack monthly GHS test plan must already exist. The output URL is sensitive and is written mode 0600 with exclusive creation. A timeout is ambiguous; verify the reference before retrying. No auto-retry, direct card API or application checkout button is enabled.
+
+Payment input: tenantId, customerCode (`CUS_…`), reference, reviewedReference (>=8 chars), expectedCurrency `GHS`, expectedAmountMinor as an integer decimal string, bindingVerified true. Inject a dedicated `BILLING_IMPORT_DATABASE_URL` login with only `app_billing_importer` membership. Never use web/worker, owner or accepted-order operator credentials. Provider customer→tenant binding needs independently reviewed evidence. The transaction fetch/parse checks must succeed before any local write. Repeat observation updates one reference and emits an audit; status reversals do not execute a refund or auto-revoke a subscription. A browser callback is never payment verification.
+
+Tests inject explicit HTTP fixture transports; these are contract/negative tests, not live Paystack sandbox results. Provider errors/reference mismatch/live keys/fractional or unsafe amounts are denied; PostgreSQL tests prove role/tenant fences and unchanged trial entitlements. The storage currency allowlist is broader than the Ghana launch review input; supported merchant currencies are not inferred from that list. No provider subscription mapping, invoice ledger, webhook inbox, settlement reconciliation, live recurring collection or tax calculation is implemented.
+
+Infrastructure entry points, account/secret/bootstrap controls and the deliberate default release denial are in PRODUCTION_DEPLOYMENT_GUIDE.md. Run `cfn-lint` independently after template changes. `npm run check:release` **must return nonzero** for the checked-in NO_GO template; this is an exercised security refusal, not a failed quality check to bypass. The deployment script refuses a serving stack rather than scaling it down via a dark-stack update. Protected environments and real approvers must be configured externally.

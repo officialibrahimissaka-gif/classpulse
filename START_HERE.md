@@ -1,6 +1,6 @@
 # Your ClassPulse delivery
 
-**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. All 42 local tests pass; production and acceptance blockers remain.
+**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. The Phase 6 suite passed 42 tests; Phase 7 now passes 49 local tests; production and acceptance blockers remain.
 
 The source and documentation are now uploaded to GitHub on branch `codex/classpulse-mvp-review`. The `main` branch is unchanged. Uploading source does not deploy a running application.
 
@@ -59,3 +59,7 @@ The recorded suite passes 8 unit tests, 12 native PostgreSQL integration tests a
 ## Live browser preview
 
 The source upload is complete, but the application is not deployed to a public URL. This environment-setup chat does not provide interactive web previews. Follow the local run instructions above to test the app. A hosted private preview requires a separate hosting and authentication setup; no public tunnel or production deployment has been performed.
+
+## Phase 7 launch preview
+
+After starting the app locally, open **http://127.0.0.1:3000/pricing** for proposed GHS plans and **http://127.0.0.1:3000/billing** for owner-only test billing records. These are real screens in the source, not public cloud URLs. No live checkout or subscription purchase is enabled. Start with [launch plan](LAUNCH_PLAN.md) and [deployment guide](PRODUCTION_DEPLOYMENT_GUIDE.md) for the eight new launch documents and remaining gates.

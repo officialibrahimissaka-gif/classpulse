@@ -1,0 +1,50 @@
+[
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-REPLACE"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-REPLACE1,subnet-REPLACE2"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-REPLACE3,subnet-REPLACE4"
+  },
+  {
+    "ParameterKey": "HostedZoneId",
+    "ParameterValue": "REPLACE"
+  },
+  {
+    "ParameterKey": "DomainName",
+    "ParameterValue": "staging.example.invalid"
+  },
+  {
+    "ParameterKey": "MailDomain",
+    "ParameterValue": "example.invalid"
+  },
+  {
+    "ParameterKey": "OidcDomainPrefix",
+    "ParameterValue": "replace-owned-staging-prefix"
+  },
+  {
+    "ParameterKey": "RuntimeSecretArn",
+    "ParameterValue": "arn:aws:secretsmanager:me-central-1:000000000000:secret:REPLACE-runtime"
+  },
+  {
+    "ParameterKey": "DispatcherSecretArn",
+    "ParameterValue": "arn:aws:secretsmanager:me-central-1:000000000000:secret:REPLACE-dispatch"
+  },
+  {
+    "ParameterKey": "MigrationSecretArn",
+    "ParameterValue": "arn:aws:secretsmanager:me-central-1:000000000000:secret:REPLACE-migration"
+  },
+  {
+    "ParameterKey": "AlertEmail",
+    "ParameterValue": "operator@example.invalid"
+  },
+  {
+    "ParameterKey": "PostgresEngineVersion",
+    "ParameterValue": "REPLACE-with-region-supported-17-patch"
+  }
+]

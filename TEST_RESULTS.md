@@ -104,3 +104,7 @@ No production deployment, environment publication, payment execution, customer o
 ## Additional development-tool scan
 
 Full-tree dependency audit reports 16 moderate affected ESLint-chain nodes (P6-G06); production-only audit is clean. This optional broader scan is recorded as an open finding, not a passing all-dependencies security claim. No incompatible auto-fix was applied. See SECURITY_AUDIT.md and docs/quality/phase6/dependency-summary.json.
+
+## Subsequent increment
+
+Phase 7 adds launch preparation and isolated test-mode billing. Its current tests, new migration and remaining blockers are recorded separately in [Phase 7 results](docs/quality/phase7/RESULTS.md); the Phase 6 numbers above remain historical. No production-readiness decision has changed.

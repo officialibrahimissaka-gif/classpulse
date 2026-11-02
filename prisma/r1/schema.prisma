@@ -8,6 +8,8 @@ datasource db {
 }
 
 model Tenant {
+  billingConnection             BillingConnection?
+  billingPayments               BillingPayment[]
   teamMemberships               TeamMembership[]
   r1CommercialChangeRequestRows CommercialChangeRequest[]
 
@@ -1546,4 +1548,31 @@ model TeamMembership {
   @@unique([tenantId, membershipId, teamId])
   @@index([tenantId, teamId])
   @@map("team_membership")
+}
+
+model BillingConnection {
+  tenantId           String    @id @map("tenant_id") @db.Uuid
+  providerCustomerId String    @unique @map("provider_customer_id") @db.VarChar(100)
+  reviewedReference  String    @map("reviewed_reference") @db.VarChar(160)
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  syncedAt           DateTime? @map("synced_at") @db.Timestamptz(6)
+  tenant             Tenant    @relation(fields: [tenantId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("billing_connection")
+}
+
+model BillingPayment {
+  tenantId          String    @map("tenant_id") @db.Uuid
+  providerReference String    @map("provider_reference") @db.VarChar(100)
+  status            String    @db.VarChar(30)
+  currency          String    @db.Char(3)
+  amountMinor       BigInt    @map("amount_minor")
+  paidAt            DateTime? @map("paid_at") @db.Timestamptz(6)
+  syncedAt          DateTime  @map("synced_at") @db.Timestamptz(6)
+  tenant            Tenant    @relation(fields: [tenantId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([tenantId, providerReference])
+  @@unique([providerReference])
+  @@index([tenantId, syncedAt, providerReference])
+  @@map("billing_payment")
 }

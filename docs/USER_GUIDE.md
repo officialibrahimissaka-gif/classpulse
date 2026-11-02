@@ -12,3 +12,9 @@
 10. **Administer privacy.** Verify the requester before recording an erasure request; enter a reviewed deadline and verification reference. A separate operator reviews legal holds and retention disposition before erasure. Any active legal hold blocks the conservative cleanup workflow. Operational and backup/provider obligations remain subject to independent review.
 
 The local developer identity adapter deliberately cannot satisfy fresh MFA. Production reauthentication returns to the workspace with a newly checked session; the provider/pool controls must pass deployment review.
+
+## Pricing and billing preview
+
+Open `/pricing` after starting the app to review proposed GHS plan prices, implemented module scope and limits. Prices are explicitly unvalidated experiments; the page does not collect a card or sell a subscription. The evaluation link returns to the actual sign-in/setup flow.
+
+An owner with tenant-scoped billing permission can open `/billing` to refresh reconciled Paystack **test** observations. Empty results are expected until a separate authorized test operator verifies a provider reference. Recruiters and client participants cannot access these records. Payment observations are not invoices or proof of settled revenue; no payment here changes module or plan eligibility. Continue to use the existing reviewed commercial-order process for plan requests, and do not activate live customer data while the release is NO-GO.

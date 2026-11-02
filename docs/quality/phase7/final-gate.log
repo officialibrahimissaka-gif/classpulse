@@ -1,0 +1,224 @@
+
+> classpulse@0.1.0 check
+> npm run format:check && npm run lint && npm run typecheck && npm run test:unit && npm run test:integration && npm run test:e2e && npm run check:api && npm run check:migrations && npm run check:security && npm run build
+
+
+> classpulse@0.1.0 format:check
+> prettier --check src tests scripts *.json *.ts *.mjs .github
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> classpulse@0.1.0 lint
+> eslint src tests scripts
+
+
+> classpulse@0.1.0 typecheck
+> tsc --noEmit
+
+
+> classpulse@0.1.0 test:unit
+> vitest run tests/unit
+
+
+ RUN  v5.0.5 /workspace/classpulse
+
+
+ Test Files  6 passed (6)
+      Tests  18 passed (18)
+   Start at  07:41:34
+   Duration  932ms (import 40%, setup 24%, tests 22%, transform 12%, worker 2%)
+
+
+> classpulse@0.1.0 test:integration
+> vitest run tests/integration --no-file-parallelism
+
+
+ RUN  v5.0.5 /workspace/classpulse
+
+(node:530358) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:530443) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:530477) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:530494) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:530527) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:530546) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  9 passed (9)
+      Tests  28 passed (28)
+   Start at  07:41:35
+   Duration  12.62s (tests 80%, import 14%, setup 4%, transform 1%)
+
+    Isolate  9 workers spawned · ~90ms startup each (spawn + environment, per file)
+             at least ~718ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+> classpulse@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:530684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530762) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:530844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530951) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] {"event":"security.denied","requestId":"38242792-e12d-4acf-a3f6-bbe0ca9bb54a","status":403,"code":"CSRF_DENIED"}
+[WebServer] {"event":"security.denied","requestId":"5e761931-8c78-4919-ada5-5786ecb34289","status":403,"code":"ORIGIN_DENIED"}
+[WebServer] (node:530981) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530696) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+[WebServer] (node:530994) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] {"event":"security.denied","requestId":"cd984bab-177b-481f-8143-e97afe47a397","status":401,"code":"INVALID_SESSION"}
+  ✓  1 tests/e2e/phase6-security.spec.ts:3:1 › P6-HTTP-001 real HTTP authorization, injection, unsupported webhooks, keyboard and responsive accessibility (7.9s)
+[WebServer] {"event":"security.denied","requestId":"e1654b96-a4d4-4510-8fa4-1a5d31aa95ad","status":401,"code":"AUTH_REQUIRED"}
+[WebServer] (node:531118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/phase7-commercial.spec.ts:3:1 › P7-UX01 pricing is explicit GHS experiment and owner billing is accessible, responsive and authenticated (2.3s)
+[WebServer] (node:531182) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531190) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531219) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:530762) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+[WebServer] (node:531311) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:531341) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] {"event":"security.denied","requestId":"673c4e0c-fd7d-49e6-96dc-2e2625e03eb2","status":401,"code":"AUTH_REQUIRED"}
+[WebServer] (node:531383) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] {"event":"security.denied","requestId":"95783654-28d2-4b38-8110-dc0bbcb13f51","status":401,"code":"AUTH_REQUIRED"}
+  ✓  3 tests/e2e/workflow.spec.ts:3:1 › company setup, client, placement, checklist, readiness, and a confirmed first day (10.7s)
+[WebServer] (node:531391) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+  3 passed (27.5s)
+
+> classpulse@0.1.0 check:api
+> tsx scripts/api-contract.ts --check && node --input-type=module -e "import Parser from '@apidevtools/swagger-parser'; await Parser.validate('api/r1.openapi.yaml'); console.log('R1 API contract valid')"
+
+Generated 38 versioned R1 operations.
+R1 API contract valid
+
+> classpulse@0.1.0 check:migrations
+> tsx scripts/check-migrations.ts && tsx scripts/validate-migrations.ts
+
+Verified 8 immutable migration checksums.
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/r1/schema.prisma.
+Datasource "db": PostgreSQL database "classpulse_check_7312ac2be24347f3b62a38e052fb6c62", schema "public" at "127.0.0.1:55432"
+
+8 migrations found in prisma/migrations
+
+Applying migration `202611010001_r1_baseline`
+Applying migration `202611010002_r1_integrity`
+Applying migration `202611010003_retention_role`
+Applying migration `202611010004_privacy_workflow`
+Applying migration `202611010005_ephemeral_retention`
+Applying migration `202611010006_retention_integrity_reads`
+Applying migration `202611010007_retained_overcapacity`
+Applying migration `202611020001_billing_observations`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 202611010001_r1_baseline/
+    └─ migration.sql
+  └─ 202611010002_r1_integrity/
+    └─ migration.sql
+  └─ 202611010003_retention_role/
+    └─ migration.sql
+  └─ 202611010004_privacy_workflow/
+    └─ migration.sql
+  └─ 202611010005_ephemeral_retention/
+    └─ migration.sql
+  └─ 202611010006_retention_integrity_reads/
+    └─ migration.sql
+  └─ 202611010007_retained_overcapacity/
+    └─ migration.sql
+  └─ 202611020001_billing_observations/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+Loaded Prisma config from prisma.config.ts.
+
+No difference detected.
+
+Fresh migration replay, schema drift, and FORCE RLS checks passed.
+
+> classpulse@0.1.0 check:security
+> tsx scripts/security-check.ts && npm audit --omit=dev --audit-level=high
+
+Static security policy checks passed; independent security review is still required.
+found 0 vulnerabilities
+
+> classpulse@0.1.0 build
+> prisma generate && next build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/r1/schema.prisma.
+
+✔ Generated Prisma Client (7.10.1) to ./src/generated/prisma in 592ms
+
+▲ Next.js 16.4.3 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 33ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 325ms
+  Running TypeScript ...
+  Finished TypeScript in 3.0s ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/5) ...
+  Generating static pages using 4 workers (1/5) 
+  Generating static pages using 4 workers (2/5) 
+  Generating static pages using 4 workers (3/5) 
+✓ Generating static pages using 4 workers (5/5) in 178ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /api/auth/[action]
+├ ƒ /api/health
+├ ƒ /api/invitation
+├ ƒ /api/v1/[...path]
+├ ○ /billing
+├ ƒ /invite
+├ ○ /pricing
+└ ƒ /workspace
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -11,3 +11,13 @@
 - **IMP-R1-ADR-009 — reviewed commercial operations.** Customer plan requests do not self-grant paid access. A separate controlled operator verifies an accepted order and atomically updates subscription/capacity at a reviewed effective time. Downgrades preserve excess data; cancellation has a 30-day read/export window. Payment-provider automation is excluded.
 
 These choices implement the authorized Phase 5 scope; they do not approve production release, legal rules, customer validation or external infrastructure claims.
+
+## Phase 7 launch preparation — 2 November 2026
+
+P7-D01 retains AWS me-central-1 as a proposed first cell and implements CloudFormation dark-stack templates/protected deployment scaffolding. No cloud binding/apply/publication occurred; template lint is not a deployed-security review. Traffic activation, live migration/bootstrap, image signing and provider/recovery/monitoring evidence remain external gates.
+
+P7-D02 follows the founder's Ghana Paystack/GHS preference with an isolated **test-only** hosted-checkout/verification increment. This bounded addition revises R1's “billing automation later” boundary only for proposed pricing and test observations; live automated billing/entitlement changes remain excluded. No approved market price, legal entity, tax rule or FX conversion was invented. A future live-billing release needs its own accepted requirements and financial/provider/legal tests; it cannot inherit Phase 6 readiness.
+
+P7-D03 preserves independent reviewed-order entitlements. Provider references/customer binding/amount/currency must reconcile before an observation is stored; web/worker runtime cannot write observations. New RLS migration is tracked; full-vision schema remains unchanged. Payment/invoice/settlement are distinct; no fake paid status, invoice or public webhook is exposed.
+
+P7-D04 keeps discovery/outreach and legal drafts as preparation. No messages, purchases, live collection, signed customer agreements or production release is implied by delivery to GitHub. P7-DEP01, P7-B01–B04 and P7-UX01 are actual automated tests; LAUNCH_PLAN.md and docs/quality/phase7/RESULTS.md provide dispositions.

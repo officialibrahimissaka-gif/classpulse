@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Phase 7 preparation, 2026-11-02
+
+- Add eight launch documents, legal-review outlines and explicit NO-GO/first-ten plan.
+- Add unprovisioned AWS network/dark-cell templates, protected evidence-gated automation and isolated migration image target.
+- Add proposed GHS pricing, test-only Paystack hosted checkout/verification, owner billing observation view and dedicated importer/RLS migration. No live keys, automatic payment entitlements or invoice/settlement claims.
+- Full local gate passes 49 tests, 38-operation API, eight migrations, security/build checks; template lint passes and NO-GO release refusal is verified. No deployment, outreach or live payment.
+
 ## Unreleased — Phase 6 audit, 2026-11-01
 
 - Fix ten audit finding areas: entity and participant scope, commercial replay, safe positive allocation, 5,000-row export cap and uniform CSV, trusted-ingress throttling, fail-closed production adapters, problem responses and ambiguous digest classification. No schema changes.

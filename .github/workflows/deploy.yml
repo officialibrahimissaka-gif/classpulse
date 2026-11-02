@@ -1,0 +1,60 @@
+name: Gated regional deployment
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [staging, production]
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  evidence:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node -e 'require("fs").mkdirSync(".local",{recursive:true});require("fs").writeFileSync(".local/release-evidence.json",process.env.RELEASE_EVIDENCE_JSON,{mode:384})'
+        env:
+          RELEASE_EVIDENCE_JSON: ${{ secrets.RELEASE_EVIDENCE_JSON }}
+      - run: npx tsx scripts/release-preflight.ts .local/release-evidence.json "$TARGET"
+        env:
+          TARGET: ${{ inputs.environment }}
+  deploy:
+    needs: evidence
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: me-central-1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: node -e 'require("fs").mkdirSync(".local",{recursive:true});require("fs").writeFileSync(".local/release-evidence.json",process.env.RELEASE_EVIDENCE_JSON,{mode:384})'
+        env:
+          RELEASE_EVIDENCE_JSON: ${{ secrets.RELEASE_EVIDENCE_JSON }}
+      - run: npx tsx scripts/release-preflight.ts .local/release-evidence.json "$TARGET"
+        env:
+          TARGET: ${{ inputs.environment }}
+      - run: node scripts/deploy-cell.mjs
+        env:
+          TARGET: ${{ inputs.environment }}
+          RELEASE_EVIDENCE_PATH: .local/release-evidence.json
+          STACK_NAME: ${{ vars.STACK_NAME }}
+          EXPECTED_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
+          PARAMETERS_PATH: ${{ vars.CELL_PARAMETERS_PATH }}

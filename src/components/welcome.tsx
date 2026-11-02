@@ -50,6 +50,7 @@ export default function Welcome({
           <Layers3 aria-hidden="true" /> ClassPulse
         </div>
         <span className="eyebrow">PLACEMENT OPERATIONS</span>
+        <a href="/pricing">Plans and evaluation scope</a>
         <h1>
           A confident start.
           <br />

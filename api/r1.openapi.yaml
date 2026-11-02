@@ -2164,6 +2164,35 @@ paths:
         "429": *a10
         "500": *a11
         "503": *a12
+  /api/v1/billing:
+    get:
+      operationId: R1-API-038
+      summary: GET /api/v1/billing
+      description: "Internal R1 endpoint. Permission: billing.manage. Module: platform.core. Current
+        tenant/session/role/module/scope checks apply on every request. Lists are bounded; no public
+        integration API is offered. Exports are limited to 5,000 rows."
+      security:
+        - session: []
+      parameters: []
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BillingSummary"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
 components:
   securitySchemes:
     session:
@@ -5920,6 +5949,62 @@ components:
         - teamId
         - revokedAt
       additionalProperties: false
+    BillingConnection:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          format: uuid
+        providerCustomerId:
+          type: string
+        reviewedReference:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        syncedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+      required:
+        - tenantId
+        - providerCustomerId
+        - reviewedReference
+        - createdAt
+        - syncedAt
+      additionalProperties: false
+    BillingPayment:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          format: uuid
+        providerReference:
+          type: string
+        status:
+          type: string
+        currency:
+          type: string
+        amountMinor:
+          type: string
+        paidAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: "null"
+        syncedAt:
+          type: string
+          format: date-time
+      required:
+        - tenantId
+        - providerReference
+        - status
+        - currency
+        - amountMinor
+        - paidAt
+        - syncedAt
+      additionalProperties: false
     ClientList:
       type: array
       items:
@@ -6009,3 +6094,42 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/PlacementTransition"
+    BillingSummary:
+      type: object
+      properties:
+        provider:
+          type: string
+          const: paystack
+        mode:
+          type: string
+          const: test
+        syncedAt: *a16
+        payments:
+          type: array
+          items:
+            type: object
+            properties:
+              reference: *a14
+              status: *a14
+              currency: *a14
+              amountMinor:
+                type: string
+                pattern: ^[0-9]+$
+              paidAt: *a16
+              syncedAt:
+                type: string
+                format: date-time
+            required:
+              - reference
+              - status
+              - currency
+              - amountMinor
+              - paidAt
+              - syncedAt
+            additionalProperties: false
+      required:
+        - provider
+        - mode
+        - syncedAt
+        - payments
+      additionalProperties: false

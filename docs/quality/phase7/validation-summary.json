@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-02",
+  "baseline": "2f6ef621a24769fa9b910aa13843d4cb0bffb641",
+  "releaseDecision": "NO_GO",
+  "fullGate": {
+    "command": "npm run check",
+    "exitCode": 0,
+    "unit": 18,
+    "integration": 28,
+    "browser": 3,
+    "total": 49,
+    "apiOperations": 38,
+    "migrations": 8,
+    "productionDependencyVulnerabilities": 0
+  },
+  "infrastructure": {
+    "tool": "cfn-lint 1.47.1",
+    "templates": [
+      "infra/aws/network.template.json",
+      "infra/aws/cell.template.json"
+    ],
+    "exitCode": 0,
+    "provisioned": false
+  },
+  "releasePreflight": {
+    "defaultEvidence": "NO_GO",
+    "expectedExitCode": 1,
+    "observedExitCode": 1,
+    "directEntryPointNegativeCase": "P7-DEP02"
+  },
+  "providerTests": "injected HTTP fixtures; no Paystack key or account-level test",
+  "cloudApply": false,
+  "publicDeployment": false,
+  "livePayment": false,
+  "customerOutreach": false
+}

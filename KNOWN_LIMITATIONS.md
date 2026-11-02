@@ -19,3 +19,10 @@ Updated 2026-11-01. The local agency workflow is implemented; production release
 The current verdict is **NO-GO**. See [release checklist](RELEASE_READINESS_CHECKLIST.md) and [requirement-level results](TEST_RESULTS.md). Existing source/worker tests pass after remediation, but cross-format reuse of one snapshot, full imported-source provenance/correction, complete subject-rights/retention workflows, operator approval/audit archival, manual assistive technology and tagged-PDF review remain incomplete. C2 report classifications need alignment with the approved S0–S3 scheme. Measured local 20-user latency and 5,000-row exports do not certify sustained multi-tenant production performance or availability.
 
 - P6-G06: full-tree dependency scan finds 16 moderate affected development lint-tool nodes (minimatch DoS); production dependencies remain clean. Compatible remediation and full retest remain open.
+
+## Phase 7 boundaries
+
+- AWS templates and deployment automation are unprovisioned and dark-stack only. No cloud/domain/secret identity is connected. Real provider/IAM/TLS/restore/alerts and image signing are unverified; internal HTTP/general NAT/shared renderer remain architecture gaps.
+- Pricing is a GHS experiment based on founder's Ghana Paystack preference, not approved willingness to pay or AED conversion. Test-mode hosted checkout and payment observations are implemented; all provider HTTP tests use fixtures. No actual sandbox/live charge has been run and live secrets are rejected.
+- Owner billing records are not invoices, settled cash or revenue. Live recurring subscription mapping, signed webhook inbox/replay, invoice/tax/dunning/refund/dispute/settlement controls and financial retention/rights review remain blockers. No callback or payment observation auto-grants an entitlement.
+- Legal drafts are incomplete review outlines. No seller identity, legal jurisdiction, tax, cancellation/refund promise, live support route or regulatory certification is fabricated. See LAUNCH_PLAN.md and docs/quality/phase7/RESULTS.md for owners and closure evidence.

@@ -1,3 +1,4 @@
+import { billingSummary } from "@/domain/billing";
 import { entities, createEntity } from "@/domain/entities";
 import { config } from "@/platform/config";
 import { requestPrivacy, createHold } from "@/domain/privacy";
@@ -48,6 +49,7 @@ export async function GET(request: Request, { params }: Params) {
       });
     }
     const result = await authenticated(request, async (tx, ctx) => {
+      if (path.join("/") === "billing") return billingSummary(tx, ctx);
       if (path.join("/") === "me") {
         const tenant = await tx.tenant.findUniqueOrThrow({
           where: { id: ctx.tenantId },

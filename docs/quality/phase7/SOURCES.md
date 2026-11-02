@@ -1,0 +1,11 @@
+# Phase 7 evidence and source boundaries
+
+Prepared 2 November 2026. [V] official retrieved documentation, [F] founder statement, [H] hypothesis, [I] implemented/local evidence, [B] blocked or unverified.
+
+- [F] Founder identifies Ghana Paystack merchant, GHS settlement and foreign-card acceptance. Live key exists with founder, but no key or account binding is available here. Legal seller identity, enabled recurring/international features and settlement statements remain [B].
+- [V] Paystack subscription guide, https://paystack.com/docs/payments/subscriptions/ (HTTP 200): plans, subscription lifecycle; cards and Nigeria Direct Debit. https://paystack.com/docs/api/subscription/ (200) and https://paystack.com/docs/payments/payment-channels/ (200) were also retrieved. Account eligibility is not established by docs.
+- [V] https://paystack.com/docs/payments/webhooks/ (200) specifies x-paystack-signature HMAC SHA512. No public webhook handler exists in this increment; signature/inbox/replay requirements remain future blocking work.
+- [B] Direct retrieval of https://paystack.com/docs/api/plan/, https://paystack.com/docs/api/transaction/ and https://paystack.com/docs/api/payment-request/ returned HTTP 403; `/docs/api/invoice/` returned 404 and `/countries` 403. Do not claim those pages were verified or infer current country/currency eligibility. Test adapter endpoint contracts need actual Paystack sandbox confirmation before release.
+- [V] AWS ECS service reference https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-ecs-service.html retrieved for deployment design; regional capabilities/engine patches/quotas, real IAM/provider configuration and actual plan/apply remain [B]. Local cfn-lint 1.47.1 validates resource schemas, not deployed behavior.
+- [I] Phase 6 repository source/tests/requirements and eight migration replay are direct local evidence. All new Paystack HTTP tests are explicitly injected fixtures. No external provider sandbox, real merchant account, domain, managed restore or paid-customer evidence has been exercised.
+- [H] GHS 1,000/2,500 price anchors, 60→30→15→10 funnel, activation/value targets and acquisition channels are experiments. No FX conversion, competitor price, market-size figure, legal conclusion or revenue outcome is asserted.

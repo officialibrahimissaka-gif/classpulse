@@ -767,6 +767,28 @@ const spec = {
     schemas,
   },
 };
+schemas.BillingSummary = object({
+  provider: { type: "string", const: "paystack" },
+  mode: { type: "string", const: "test" },
+  syncedAt: nullableDate,
+  payments: array(
+    object({
+      reference: str,
+      status: str,
+      currency: str,
+      amountMinor: { type: "string", pattern: "^[0-9]+$" },
+      paidAt: nullableDate,
+      syncedAt: { type: "string", format: "date-time" },
+    }),
+  ),
+});
+add(
+  "/api/v1/billing",
+  "get",
+  ref("BillingSummary"),
+  undefined,
+  "billing.manage",
+);
 const output = stringify(spec, { lineWidth: 110 });
 if (process.argv.includes("--check")) {
   if ((await readFile("api/r1.openapi.yaml", "utf8")) !== output)

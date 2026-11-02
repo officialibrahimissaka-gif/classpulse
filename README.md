@@ -1,6 +1,6 @@
 # ClassPulse
 
-**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. All 42 local tests pass; production and acceptance blockers remain.
+**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. The Phase 6 suite passed 42 tests; Phase 7 now passes 49 local tests; production and acceptance blockers remain.
 
 R1 agency placement-to-start coordination. The runnable implementation covers company setup, clients and minimal candidate references, checklist ownership, scoped client participation, exceptions and human readiness/start decisions, CSV import, daily reminders, and operational reports. Full HRMS and payroll remain outside this release.
 
@@ -31,3 +31,7 @@ npm run check
 The suite checks formatting, lint, strict types, unit tests, native PostgreSQL integration, browser/accessibility behavior, fresh migration replay/schema drift/RLS, dependency/static security and production build. Tests use unique synthetic local tenants and real local SMTP/private files. Never point local/test tooling at production.
 
 See [development status](DEVELOPMENT_STATUS.md), [known limitations](KNOWN_LIMITATIONS.md), [user guide](docs/USER_GUIDE.md), [developer guide](docs/DEVELOPER_GUIDE.md), and [operations runbook](docs/OPERATIONS_RUNBOOK.md). The root Phase 0–4 documents remain design baselines; the full-vision Prisma schema and OpenAPI are not the deployed R1 contract.
+
+## Launch preparation
+
+[Launch plan](LAUNCH_PLAN.md) · [Deployment guide](PRODUCTION_DEPLOYMENT_GUIDE.md) · [Operations](OPERATIONS_RUNBOOK.md) · [Pricing](PRICING_STRATEGY.md) · [Customer onboarding](CUSTOMER_ONBOARDING_PLAN.md) · [Sales](SALES_PLAYBOOK.md) · [Revenue model](REVENUE_MODEL.md) · [Roadmap](POST_LAUNCH_ROADMAP.md). Local previews: `/pricing` and owner-only `/billing`. [Phase 7 executed evidence](docs/quality/phase7/RESULTS.md). No public deployment or live billing is enabled.
