@@ -1,3 +1,4 @@
+import { exportRequestSchema } from "../src/domain/exports";
 import { readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import { stringify } from "yaml";
@@ -314,7 +315,7 @@ add(
   "/api/v1/exports",
   "post",
   ref("Ack"),
-  object({ filters: ref("Filters"), format: { enum: ["pdf", "csv", "xlsx"] } }),
+  js(exportRequestSchema),
   "reports.export",
   "platform.analytics + agency.starts",
 );
@@ -327,6 +328,7 @@ add(
       state: str,
       errorCode: { type: ["string", "null"] },
       artifactId: uuid,
+      snapshotId: { type: ["string", "null"], format: "uuid" },
       expiresAt: str,
     },
     ["id", "state", "errorCode"],
@@ -788,6 +790,26 @@ add(
   ref("BillingSummary"),
   undefined,
   "billing.manage",
+);
+add(
+  "/api/v1/report-snapshots",
+  "post",
+  ref("Ack"),
+  object({ filters: ref("Filters") }),
+  "reports.read + reports.export",
+  "platform.analytics + agency.starts",
+);
+add(
+  "/api/v1/report-snapshots/{id}",
+  "get",
+  object({
+    id: uuid,
+    expiresAt: { type: "string", format: "date-time" },
+    data: ref("Report"),
+  }),
+  undefined,
+  "reports.read + reports.export",
+  "platform.analytics + agency.starts",
 );
 const output = stringify(spec, { lineWidth: 110 });
 if (process.argv.includes("--check")) {

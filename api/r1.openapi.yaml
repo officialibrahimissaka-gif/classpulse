@@ -461,19 +461,58 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                filters:
-                  $ref: "#/components/schemas/Filters"
-                format:
-                  enum:
-                    - pdf
-                    - csv
-                    - xlsx
-              required:
-                - filters
-                - format
-              additionalProperties: false
+              anyOf:
+                - type: object
+                  properties:
+                    filters:
+                      type: object
+                      properties:
+                        from:
+                          type: string
+                          format: date
+                          pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$
+                        to:
+                          type: string
+                          format: date
+                          pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$
+                        clientId:
+                          type: string
+                          format: uuid
+                          pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+                        entityId:
+                          type: string
+                          format: uuid
+                          pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+                      required:
+                        - from
+                        - to
+                      additionalProperties: false
+                    format:
+                      type: string
+                      enum:
+                        - pdf
+                        - csv
+                        - xlsx
+                  required:
+                    - filters
+                    - format
+                  additionalProperties: false
+                - type: object
+                  properties:
+                    snapshotId:
+                      type: string
+                      format: uuid
+                      pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+                    format:
+                      type: string
+                      enum:
+                        - pdf
+                        - csv
+                        - xlsx
+                  required:
+                    - snapshotId
+                    - format
+                  additionalProperties: false
       responses:
         "200":
           description: Authorized operation result
@@ -522,6 +561,11 @@ paths:
                       - string
                       - "null"
                   artifactId: *a13
+                  snapshotId:
+                    type:
+                      - string
+                      - "null"
+                    format: uuid
                   expiresAt: *a14
                 required:
                   - id
@@ -2181,6 +2225,109 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BillingSummary"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/report-snapshots:
+    post:
+      operationId: R1-API-039
+      summary: POST /api/v1/report-snapshots
+      description: "Internal R1 endpoint. Permission: reports.read + reports.export. Module: platform.analytics +
+        agency.starts. Current tenant/session/role/module/scope checks apply on every request. Lists are
+        bounded; no public integration API is offered. Exports are limited to 5,000 rows."
+      security:
+        - session: []
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema:
+            type: string
+            format: uri
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: *a14
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 160
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  $ref: "#/components/schemas/Filters"
+              required:
+                - filters
+              additionalProperties: false
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ack"
+        "400": *a1
+        "401": *a2
+        "403": *a3
+        "404": *a4
+        "409": *a5
+        "412": *a6
+        "413": *a7
+        "422": *a8
+        "428": *a9
+        "429": *a10
+        "500": *a11
+        "503": *a12
+  /api/v1/report-snapshots/{id}:
+    get:
+      operationId: R1-API-040
+      summary: GET /api/v1/report-snapshots/{id}
+      description: "Internal R1 endpoint. Permission: reports.read + reports.export. Module: platform.analytics +
+        agency.starts. Current tenant/session/role/module/scope checks apply on every request. Lists are
+        bounded; no public integration API is offered. Exports are limited to 5,000 rows."
+      security:
+        - session: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: *a13
+      responses:
+        "200":
+          description: Authorized operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: *a13
+                  expiresAt:
+                    type: string
+                    format: date-time
+                  data:
+                    $ref: "#/components/schemas/Report"
+                required:
+                  - id
+                  - expiresAt
+                  - data
+                additionalProperties: false
         "400": *a1
         "401": *a2
         "403": *a3

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Layers3,
   LayoutDashboard,
@@ -63,7 +63,10 @@ type Task = {
   dueAt: string;
   version?: number;
 };
-type Report = {
+export type Report = {
+  snapshotId?: string;
+  snapshotExpiresAt?: string;
+  filters: { from: string; to: string; clientId?: string; entityId?: string };
   asOf: string;
   drilldowns: Record<string, string[]>;
   distribution: Record<string, number>;
@@ -127,21 +130,23 @@ export default function Workspace() {
       .then(load)
       .catch((e) => setError(e.message));
   }, [load]);
+  const reportEpoch = useRef(0);
   const loadReport = useCallback(async () => {
+    const epoch = ++reportEpoch.current;
     try {
-      setReport(
-        await api<Report>(
-          "/api/v1/reports?" +
-            new URLSearchParams({
-              from,
-              to,
-              ...(clientFilter ? { clientId: clientFilter } : {}),
-              ...(entityFilter ? { entityId: entityFilter } : {}),
-            }),
-        ),
+      const next = await api<Report>(
+        "/api/v1/reports?" +
+          new URLSearchParams({
+            from,
+            to,
+            ...(clientFilter ? { clientId: clientFilter } : {}),
+            ...(entityFilter ? { entityId: entityFilter } : {}),
+          }),
       );
+      if (epoch === reportEpoch.current) setReport(next);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Report unavailable");
+      if (epoch === reportEpoch.current)
+        setError(e instanceof Error ? e.message : "Report unavailable");
     }
   }, [from, to, clientFilter, entityFilter]);
   useEffect(() => {
@@ -352,7 +357,31 @@ export default function Workspace() {
                   </section>
                   {me?.permissions.includes("reports.export") && (
                     <ReportExport
+                      key={JSON.stringify([
+                        from,
+                        to,
+                        clientFilter,
+                        entityFilter,
+                      ])}
                       csrf={me.csrf}
+                      snapshotId={
+                        report?.filters.from === from &&
+                        report.filters.to === to &&
+                        (report.filters.clientId ?? "") === clientFilter &&
+                        (report.filters.entityId ?? "") === entityFilter
+                          ? report.snapshotId
+                          : undefined
+                      }
+                      snapshotExpiresAt={report?.snapshotExpiresAt}
+                      onFrozen={(value) => {
+                        ++reportEpoch.current;
+                        setReport({
+                          ...value.data,
+                          snapshotId: value.id,
+                          snapshotExpiresAt: value.expiresAt,
+                        });
+                      }}
+                      onRefresh={() => void loadReport()}
                       from={from}
                       to={to}
                       clientId={clientFilter}

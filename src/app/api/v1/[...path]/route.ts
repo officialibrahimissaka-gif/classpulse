@@ -1,3 +1,4 @@
+import { requestSnapshot, snapshotView } from "@/domain/report-snapshots";
 import { billingSummary } from "@/domain/billing";
 import { entities, createEntity } from "@/domain/entities";
 import { config } from "@/platform/config";
@@ -133,6 +134,8 @@ export async function GET(request: Request, { params }: Params) {
       }
       if (path[0] === "imports" && path.length === 2)
         return importStatus(tx, ctx, z.uuid().parse(path[1]));
+      if (path[0] === "report-snapshots" && path.length === 2)
+        return snapshotView(tx, ctx, z.uuid().parse(path[1]));
       if (path[0] === "exports" && path.length === 2)
         return exportStatus(tx, ctx, z.uuid().parse(path[1]));
       if (path.join("/") === "shared") return collaboration.shared(tx, ctx);
@@ -232,6 +235,8 @@ export async function POST(request: Request, { params }: Params) {
           return stageImport(tx, ctx, request, body);
         if (path[0] === "imports" && path[2] === "commit" && path.length === 3)
           return commitImport(tx, ctx, request, z.uuid().parse(path[1]));
+        if (path.join("/") === "report-snapshots")
+          return requestSnapshot(tx, ctx, request, body);
         if (path.join("/") === "exports")
           return requestExport(tx, ctx, request, body);
         if (path.join("/") === "invitations")

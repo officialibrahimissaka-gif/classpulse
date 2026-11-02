@@ -1,6 +1,6 @@
 # Your ClassPulse delivery
 
-**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. The Phase 6 suite passed 42 tests; Phase 7 now passes 49 local tests; production and acceptance blockers remain.
+**Current release: NO-GO for production.** Latest continuation passes **56 local tests**; [status](DEVELOPMENT_STATUS.md), [roadmap](PRODUCT_ROADMAP.md), [evidence](docs/quality/continuation-2026-11-02/RESULTS.md) and [release checklist](RELEASE_READINESS_CHECKLIST.md) distinguish completed work from remaining gates.
 
 The source and documentation are now uploaded to GitHub on branch `codex/classpulse-mvp-review`. The `main` branch is unchanged. Uploading source does not deploy a running application.
 
@@ -63,3 +63,7 @@ The source upload is complete, but the application is not deployed to a public U
 ## Phase 7 launch preview
 
 After starting the app locally, open **http://127.0.0.1:3000/pricing** for proposed GHS plans and **http://127.0.0.1:3000/billing** for owner-only test billing records. These are real screens in the source, not public cloud URLs. No live checkout or subscription purchase is enabled. Start with [launch plan](LAUNCH_PLAN.md) and [deployment guide](PRODUCTION_DEPLOYMENT_GUIDE.md) for the eight new launch documents and remaining gates.
+
+## Latest project continuation
+
+On the local Overview, choose **Freeze report** (or generate the first export), then produce PDF, CSV and XLSX from the same displayed snapshot. Use **Refresh live report** for current values. See [project roadmap](PRODUCT_ROADMAP.md), [current status](DEVELOPMENT_STATUS.md) and [continuation evidence](docs/quality/continuation-2026-11-02/RESULTS.md). Production remains NO-GO; this is source delivery, not public deployment.

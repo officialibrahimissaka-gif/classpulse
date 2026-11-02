@@ -1,8 +1,8 @@
 # Development status
 
-Updated 2026-11-01, Phase 6 audit.
+Updated 2026-11-02, ongoing project continuation.
 
-**Phase 6 verdict: NO-GO. R1 is locally testable; whole-scope acceptance and production/commercial release remain gated.** Phase 5 authorizes implementation; earlier documents remain the approved design baseline. No environment publication or deployment was performed. Payroll is excluded.
+**Current milestone M8: R1 release acceptance — OPEN / NO-GO.** R1 is locally usable; production/commercial acceptance remains gated. Phase 5 authorizes implementation; earlier documents remain the approved design baseline. No environment publication or deployment was performed. Payroll is excluded.
 
 ## Delivered vertical slices
 
@@ -37,3 +37,13 @@ The same assistant performed an adversarial audit, not third-party certification
 **NO-GO remains.** Eight launch deliverables and counsel-review outlines now exist. Added AWS regional dark-stack/network infrastructure templates, a protected/evidence-gated deployment workflow, separate operations image target, public GHS pricing experiment and owner-only billing records. Founder selected Ghana Paystack/GHS; an isolated **test-only** hosted checkout/server verification adapter records tenant-scoped observations through a dedicated importer role. No payment changes entitlements, no live key is accepted and no cloud resource, domain, live collection or customer contact was activated.
 
 The current full gate passes **18 unit + 28 PostgreSQL integration + 3 browser = 49 tests**, plus format/lint/types, 38-operation API validation, eight fresh migrations/no drift/FORCE RLS, production dependency audit and build. Both CloudFormation templates pass cfn-lint; default release preflight intentionally refuses NO_GO. [Evidence and P7 requirement dispositions](docs/quality/phase7/RESULTS.md). [Launch plan](LAUNCH_PLAN.md) covers the first-ten experiment and unresolved provider/invoice/settlement/cloud/legal/customer gates. Existing Phase 5/6 counts above remain historical.
+
+## Ongoing management: CONT-T001 / M8.1
+
+The five requested management files missing from tree/history are now reconstructed with provenance: PROJECT_CHARTER.md, PRODUCT_ROADMAP.md, DECISION_LOG.md, ASSUMPTIONS_LOG.md and RISK_REGISTER.md. Existing design/implementation/market records remain authoritative and preserved; no customer evidence or signoff was invented.
+
+Highest-priority independent task: P6-G01 / REQ-R002/R005 reusable frozen reports. Implemented an immutable summary/projection snapshot, explicit frozen Overview/live refresh, multi-format re-export, exact artifact status, expiry/no-extension and current owner/tenant/record/privacy checks, plus legacy compatibility. Ninth migration is additive; no prior migration/schema history was rewritten. Final evidence/status is in docs/quality/continuation-2026-11-02/RESULTS.md.
+
+Next internal slice: CONT-T002 / M8.2 import source provenance, conflict disposition and history-preserving correction. Independently, actual identity/cloud/restore/legal/operational-audit/customer/live-billing gates remain blocked/open. This continuation does not authorize or perform deployment, environment publication, main merge, live payment or outreach.
+
+Final continuation gate: **56 tests passed (18 unit + 34 native integration + 4 browser)**, format/lint/types, 40-operation API, nine fresh migrations/no drift/FORCE RLS, production dependency audit and build. **M8.1 locally complete; M8 overall remains OPEN/NO-GO.** Current evidence: [continuation results](docs/quality/continuation-2026-11-02/RESULTS.md).

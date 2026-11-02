@@ -16,3 +16,7 @@
 | Separate future release | Payroll/financial calculation or country compliance pack | Verified current legal rules and independently validated engine/examples/reversals/rounding/history and certification where applicable | Payroll/legal/security |
 
 Review fortnightly during pilots using observed severity, recurrence, customer value, cost and architectural risk. Publish changes to existing requirement/story/design/test traceability, add versioned migration/API contracts where relevant, rerun affected gates and maintain independent release signoffs. No future entitlement becomes available because a parent module or a paid plan is active.
+
+## Continuation update — 2 November 2026
+
+The same-snapshot dashboard/export portion of P6-G01 is locally remediated under CONT-T001; remaining provenance/correction, UI/manual accessibility, classification and external release work is unchanged. [Current management roadmap](PRODUCT_ROADMAP.md) and [executed evidence](docs/quality/continuation-2026-11-02/RESULTS.md) carry the latest slice disposition. This roadmap is not a release approval.

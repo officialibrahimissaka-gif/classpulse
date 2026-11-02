@@ -163,3 +163,7 @@ All 151 named REQ IDs found in the approved root catalog are enumerated below. L
 Each canonical IMP ID is the corresponding REQ ID with `REQ-` replaced by `IMP-`; the row above is its concrete Phase 5 work-item mapping. The stable implemented HTTP operation IDs are R1-API-001 through R1-API-037 in `api/r1.openapi.yaml`. Test files map to the design TEST IDs through the same parent requirement; this does not rename a partial local test into a complete acceptance certification.
 
 Build/quality evidence is recorded in `docs/QUALITY_RESULTS.md`. No later feature inherits eligibility merely from a parent module being active.
+
+## Continuation task CONT-T001 — 2 November 2026
+
+REQ-R002 / US-R002 / DES-R002 and REQ-R005 / US-R005 / DES-R005 → CONT-D003–D005 in DECISION_LOG.md → `src/domain/report-snapshots.ts`, `src/domain/exports.ts`, authenticated snapshot/export routes, `report-export.tsx`/Overview integration, and migration nine → CONT-SNAP01–07 native/browser cases. [Executed evidence](quality/continuation-2026-11-02/RESULTS.md). P6-G01 is locally remediated; full R005 watermark/classification/manual accessible-report and production controls remain separately gated. No blanket pass of every original TEST-R clause is asserted.

@@ -1,10 +1,8 @@
-import { metricDefinitions } from "./metrics";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import PDFDocument from "pdfkit";
 import { spreadsheet } from "@/platform/spreadsheet";
 import { stringify } from "csv-stringify/sync";
-import type { Prisma } from "@/generated/prisma/client";
 import { type Tx, tenantTransaction } from "@/platform/database";
 import {
   type Context,
@@ -15,14 +13,21 @@ import {
 } from "@/platform/policy";
 import { command, audit } from "@/platform/commands";
 import { check } from "@/platform/errors";
-import { canonical, hash } from "@/platform/crypto";
+import { hash } from "@/platform/crypto";
 import { putArtifact, getArtifact, removeArtifact } from "@/platform/storage";
-import { filterSchema, report, type MetricRow } from "./analytics";
-export const exportRowLimit = 5000;
+import { filterSchema, type MetricRow } from "./analytics";
+import {
+  captureSnapshot,
+  readSnapshot,
+  reportScopeHash,
+  exportRowLimit,
+} from "./report-snapshots";
+export { exportRowLimit } from "./report-snapshots";
 const formatSchema = z.enum(["pdf", "csv", "xlsx"]);
-const requestSchema = z
-  .object({ filters: filterSchema, format: formatSchema })
-  .strict();
+export const exportRequestSchema = z.union([
+  z.object({ filters: filterSchema, format: formatSchema }).strict(),
+  z.object({ snapshotId: z.uuid(), format: formatSchema }).strict(),
+]);
 export const contentTypes = {
   pdf: "application/pdf",
   csv: "text/csv; charset=utf-8",
@@ -37,14 +42,20 @@ export async function requestExport(
   requireModule(ctx, "platform.analytics");
   requireModule(ctx, "agency.starts");
   requirePermission(ctx, "reports.export");
-  const data = requestSchema.parse(input);
+  const data = exportRequestSchema.parse(input);
   return command(tx, ctx, request, "reports.export", data, async () => {
+    if ("snapshotId" in data) await readSnapshot(tx, ctx, data.snapshotId);
     const run = await tx.reportRun.create({
       data: {
         tenantId: ctx.tenantId,
         requesterId: ctx.memberId,
         state: "queued",
-        filterSchema: { ...data, requestedScope: scopeHash(ctx) },
+        filterSchema: {
+          ...data,
+          requestedScope: reportScopeHash(ctx),
+          schemaVersion: 2,
+        },
+        snapshotId: "snapshotId" in data ? data.snapshotId : null,
       },
     });
     await tx.backgroundJob.create({
@@ -73,19 +84,34 @@ export async function exportStatus(tx: Tx, ctx: Context, id: string) {
     where: { tenantId: ctx.tenantId, id, requesterId: ctx.memberId },
   });
   check(row, 404, "NOT_FOUND", "Report unavailable");
+  requireModule(ctx, "agency.starts");
+  if (row.snapshotId) {
+    const snapshot = await tx.reportSnapshot.findUnique({
+      where: { tenantId_id: { tenantId: ctx.tenantId, id: row.snapshotId } },
+    });
+    if (snapshot?.summary) await readSnapshot(tx, ctx, row.snapshotId);
+  }
+  const format = z
+    .object({ format: formatSchema })
+    .parse(row.filterSchema).format;
+  const result = row.result as { artifactId?: string } | null;
   const artifact = row.snapshotId
     ? await tx.exportArtifact.findFirst({
         where: {
           tenantId: ctx.tenantId,
           snapshotId: row.snapshotId,
           ownerId: ctx.memberId,
+          format,
+          ...(result?.artifactId ? { id: result.artifactId } : {}),
           state: "ready",
+          expiresAt: { gt: new Date() },
         },
       })
     : null;
   return {
     id: row.id,
     state: row.state,
+    snapshotId: row.snapshotId,
     errorCode: row.errorCode,
     artifactId: artifact?.id,
     expiresAt: artifact?.expiresAt,
@@ -194,88 +220,34 @@ export async function generateExport(tenantId: string, runId: string) {
         where: { tenantId_id: { tenantId, id: runId } },
       });
       if (run.state !== "queued") return null;
-      const input = requestSchema
-        .extend({ requestedScope: z.string() })
+      const metadata = z
+        .object({
+          requestedScope: z.string(),
+          schemaVersion: z.literal(2).optional(),
+        })
         .parse(run.filterSchema);
+      const raw = run.filterSchema as Record<string, unknown>;
+      const input = exportRequestSchema.parse(
+        Object.fromEntries(
+          Object.entries(raw).filter(
+            ([key]) => !["requestedScope", "schemaVersion"].includes(key),
+          ),
+        ),
+      );
       const ctx = await memberContext(tx, tenantId, run.requesterId);
       requirePermission(ctx, "reports.export");
       check(
-        scopeHash(ctx) === input.requestedScope,
+        (metadata.schemaVersion === 2
+          ? reportScopeHash(ctx)
+          : scopeHash(ctx)) === metadata.requestedScope,
         403,
         "ACCESS_CHANGED",
         "Report scope changed",
       );
-      const data = await report(tx, ctx, input.filters);
-      check(
-        data.rows.length <= exportRowLimit,
-        422,
-        "EXPORT_ROW_LIMIT",
-        "An export can contain at most 5,000 source rows. Narrow the report filters.",
-      );
-      const snapshot = await tx.reportSnapshot.create({
-        data: {
-          tenantId,
-          asOf: new Date(data.asOf),
-          sourceWatermark: new Date(data.sourceWatermark),
-          scopeHash: scopeHash(ctx),
-          entitlementRevision: ctx.revision,
-          metricVersions: Object.fromEntries(
-            metricDefinitions.map((d) => [d.metricKey, d.revision]),
-          ),
-          filterSchema: input.filters,
-          timeZone: "UTC",
-          currencyPolicy: "no_money",
-          snapshotHash: hash(canonical(data)),
-          expiresAt: new Date(Date.now() + 7 * 86400000),
-          requesterId: ctx.memberId,
-        },
-      });
-      for (const def of metricDefinitions) {
-        const metric = await tx.metricDefinition.upsert({
-          where: {
-            tenantId_metricKey_revision: {
-              tenantId,
-              metricKey: def.metricKey,
-              revision: def.revision,
-            },
-          },
-          create: {
-            tenantId,
-            metricKey: def.metricKey,
-            revision: def.revision,
-            sourceModule: "agency.starts",
-            definitionHash: def.definitionHash,
-            state: "active",
-          },
-          update: {},
-        });
-        check(
-          metric.definitionHash === def.definitionHash,
-          409,
-          "METRIC_VERSION_CONFLICT",
-          "Metric definition changed without a version increment",
-        );
-        await tx.reportMetricBinding.create({
-          data: {
-            tenantId,
-            snapshotId: snapshot.id,
-            metricId: metric.id,
-            definitionHash: def.definitionHash,
-          },
-        });
-      }
-      await tx.reportResultRow.createMany({
-        data: data.rows.map((r, i) => ({
-          tenantId,
-          snapshotId: snapshot.id,
-          rowKey: String(i),
-          sourceType: "placement",
-          sourceId: r.id,
-          sourceVersion: r.version ?? null,
-          projection: r as unknown as Prisma.InputJsonValue,
-          classification: "C2",
-        })),
-      });
+      const { snapshot, data } =
+        "snapshotId" in input
+          ? await readSnapshot(tx, ctx, input.snapshotId)
+          : await captureSnapshot(tx, ctx, input.filters);
       await tx.reportRun.update({
         where: { tenantId_id: { tenantId, id: runId } },
         data: {
@@ -303,11 +275,12 @@ export async function generateExport(tenantId: string, runId: string) {
       requireModule(ctx, "platform.analytics");
       requireModule(ctx, "agency.starts");
       check(
-        scopeHash(ctx) === snapshot.scopeHash,
+        reportScopeHash(ctx) === snapshot.scopeHash,
         403,
         "ACCESS_CHANGED",
         "Report scope changed",
       );
+      await readSnapshot(tx, ctx, snapshot.id);
       await tx.exportArtifact.create({
         data: {
           id,
@@ -326,7 +299,11 @@ export async function generateExport(tenantId: string, runId: string) {
       });
       await tx.reportRun.update({
         where: { tenantId_id: { tenantId, id: runId } },
-        data: { state: "ready", version: { increment: 1 } },
+        data: {
+          state: "ready",
+          result: { artifactId: id },
+          version: { increment: 1 },
+        },
       });
       await audit(tx, ctx, "report.ready", "export_artifact", id);
     });
@@ -360,11 +337,15 @@ export async function download(tx: Tx, ctx: Context, id: string) {
     include: { snapshot: true },
   });
   check(
-    artifact && artifact.snapshot.scopeHash === scopeHash(ctx),
+    artifact &&
+      artifact.snapshot.scopeHash ===
+        (artifact.snapshot.summary ? reportScopeHash(ctx) : scopeHash(ctx)),
     404,
     "ARTIFACT_UNAVAILABLE",
     "This export expired or its access scope changed. Generate a new report.",
   );
+  if (artifact.snapshot.summary)
+    await readSnapshot(tx, ctx, artifact.snapshotId);
   const bytes = await getArtifact(artifact.objectKey, artifact.objectVersion);
   check(
     hash(bytes) === artifact.contentHash,

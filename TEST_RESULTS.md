@@ -108,3 +108,7 @@ Full-tree dependency audit reports 16 moderate affected ESLint-chain nodes (P6-G
 ## Subsequent increment
 
 Phase 7 adds launch preparation and isolated test-mode billing. Its current tests, new migration and remaining blockers are recorded separately in [Phase 7 results](docs/quality/phase7/RESULTS.md); the Phase 6 numbers above remain historical. No production-readiness decision has changed.
+
+## Subsequent project continuation
+
+P6-G01 is locally remediated by CONT-T001, with frozen dashboard/multi-format reuse and current scope/expiry/privacy/legacy tests. [Current evidence](docs/quality/continuation-2026-11-02/RESULTS.md) supersedes the historical G01 disposition above; G02/G03/G04 and external controls remain open. Prior Phase 6 counts and whole-requirement partial labels are preserved, not rewritten as complete acceptance.

@@ -6,7 +6,7 @@
 
 | Area | Current evidence | Decision / accountable next action |
 |---|---|---|
-| Product | Runnable R1 coordination workflow, local test evidence and explicit exclusions | Partial: close P6-G01–G04 whole-scope acceptance with product/UX/data governance |
+| Product | Runnable R1 coordination workflow, local test evidence and explicit exclusions | Partial: P6-G01 locally remediated in continuation; close P6-G02–G04 whole-scope acceptance with product/UX/data governance |
 | Security | Ten Phase 6 finding areas remediated locally; provider/account controls still unverified | Blocked: independent security + P6-B01/B02/B05, build-tool G06 disposition |
 | Privacy/legal | Research/gap register and draft review outlines only | Blocked: Ghana seller/UAE customers, jurisdiction/transfer/terms/rights/retention review, B04 |
 | Recovery/operations | IaC, alarm definitions, runbooks; no actual cloud account or restore | Blocked: named on-call, B03 restore/tombstones, G05 sustained load/alerts |

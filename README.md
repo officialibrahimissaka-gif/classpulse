@@ -1,6 +1,6 @@
 # ClassPulse
 
-**Phase 6: NO-GO for production.** [Test results](TEST_RESULTS.md), [security audit](SECURITY_AUDIT.md), and [release checklist](RELEASE_READINESS_CHECKLIST.md) are available on this branch. The Phase 6 suite passed 42 tests; Phase 7 now passes 49 local tests; production and acceptance blockers remain.
+**Current release: NO-GO for production.** Latest continuation passes **56 local tests**; [status](DEVELOPMENT_STATUS.md), [roadmap](PRODUCT_ROADMAP.md), [evidence](docs/quality/continuation-2026-11-02/RESULTS.md) and [release checklist](RELEASE_READINESS_CHECKLIST.md) distinguish completed work from remaining gates.
 
 R1 agency placement-to-start coordination. The runnable implementation covers company setup, clients and minimal candidate references, checklist ownership, scoped client participation, exceptions and human readiness/start decisions, CSV import, daily reminders, and operational reports. Full HRMS and payroll remain outside this release.
 
@@ -35,3 +35,7 @@ See [development status](DEVELOPMENT_STATUS.md), [known limitations](KNOWN_LIMIT
 ## Launch preparation
 
 [Launch plan](LAUNCH_PLAN.md) · [Deployment guide](PRODUCTION_DEPLOYMENT_GUIDE.md) · [Operations](OPERATIONS_RUNBOOK.md) · [Pricing](PRICING_STRATEGY.md) · [Customer onboarding](CUSTOMER_ONBOARDING_PLAN.md) · [Sales](SALES_PLAYBOOK.md) · [Revenue model](REVENUE_MODEL.md) · [Roadmap](POST_LAUNCH_ROADMAP.md). Local previews: `/pricing` and owner-only `/billing`. [Phase 7 executed evidence](docs/quality/phase7/RESULTS.md). No public deployment or live billing is enabled.
+
+## Ongoing project management
+
+[Roadmap](PRODUCT_ROADMAP.md) · [Charter](PROJECT_CHARTER.md) · [Decisions](DECISION_LOG.md) · [Assumptions](ASSUMPTIONS_LOG.md) · [Risks](RISK_REGISTER.md). Latest slice: frozen Overview with same-snapshot PDF/CSV/XLSX reuse; [56-test continuation evidence](docs/quality/continuation-2026-11-02/RESULTS.md). M8.1 is locally complete; production release M8 remains NO-GO.

@@ -2552,3 +2552,7 @@ Primary key: `(tenantId,id)`. Unique keys: No additional natural-key uniqueness;
 | positionId | `String? @db.Uuid` | Yes | Composite FK `(tenantId,positionId)` → Position `(tenantId,id)`; record/context permission independently required. |
 | managerId | `String? @db.Uuid` | Yes | Composite FK `(tenantId,managerId)` → Employment `(tenantId,id)`; record/context permission independently required. |
 | supersededAt | `DateTime? @db.Timestamptz(6)` | Yes | UTC end of system-time validity. Prior content immutable; correction inserts replacement intervals. |
+
+## Implemented R1 continuation delta — 2 November 2026
+
+The preserved full-vision design above is not silently regenerated. The deployable R1 `ReportSnapshot` gains nullable `summary` JSONB: `{schemaVersion:1,metrics,drilldowns,distribution,rowCount}`. This is a private derived report record, carrying the same sensitive source classification and original seven-day expiry as its projections. It contains historical central KPI values and drill-down IDs, not new payroll/financial data. Tenant ownership, requester FK, forced RLS and append-only trigger remain unchanged. Null identifies pre-migration snapshots; no automatic backfill/reinterpretation is performed. The existing C2-versus-S0–S3 classification review remains P6-G04. No change to the full-vision Prisma schema.

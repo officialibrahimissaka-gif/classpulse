@@ -1065,6 +1065,7 @@ model SavedView {
 }
 
 model ReportSnapshot {
+  summary    Json?
   reportRuns ReportRun[]
 
   id                               String                @default(uuid()) @db.Uuid

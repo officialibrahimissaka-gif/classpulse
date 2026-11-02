@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Project continuation, 2026-11-02
+
+- Reconstruct five missing project-management records from existing requirements, decisions and actual evidence; retain NO-GO and prioritize R1 release gaps.
+- Implement explicit frozen Overview and same-snapshot PDF/CSV/XLSX reuse with immutable KPI summary/projections, exact artifact status, current-source authorization, expiry/privacy and legacy compatibility.
+- Add tracked snapshot-summary migration, API contracts, native/browser reconciliation and security regressions; CI installs independent PDF text reader.
+- Full gate passes 56 tests, 40-operation API, nine migrations/RLS/drift, security and production build. M8.1 locally complete; M8 release acceptance remains NO-GO.
+- Continue existing implementation and review branch; no deployment, environment publication, live billing or outreach.
+
 ## Unreleased — Phase 7 preparation, 2026-11-02
 
 - Add eight launch documents, legal-review outlines and explicit NO-GO/first-ten plan.

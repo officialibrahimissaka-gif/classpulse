@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-02",
+  "baseline": "570e2fc6598d350157a27b2d839a33e7c0582d8c",
+  "task": "CONT-T001",
+  "slice": "M8.1 locally complete",
+  "releaseMilestone": "M8 open",
+  "releaseDecision": "NO_GO",
+  "command": "npm run check",
+  "exitCode": 0,
+  "tests": {
+    "unit": 18,
+    "nativeIntegration": 34,
+    "browser": 4,
+    "total": 56
+  },
+  "apiOperations": 40,
+  "migrations": 9,
+  "productionDependencyVulnerabilities": 0,
+  "newPerformanceCertification": false,
+  "deployment": false,
+  "environmentPublication": false,
+  "livePayment": false,
+  "outreach": false
+}

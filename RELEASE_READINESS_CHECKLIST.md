@@ -24,7 +24,8 @@
 - [ ] **P6-B03 — SRE/privacy:** encrypted PostgreSQL/object restore with deletion-tombstone replay; demonstrate RPO ≤24h/RTO ≤8h; key rotation and failure/incident drills.
 - [ ] **P6-B04 — Legal/privacy/backend:** lawful regime/processing/contract/subprocessor/transfer review, complete record-specific retention/rights/correction/scoped-hold flows and verified controller responses.
 - [ ] **P6-B05 — Security/operator:** time-bounded tenant-approved operator controls, real billing/maintenance workload separation, complete authentication/denial/privileged audit reconciliation, external tamper evidence and alert exercises.
-- [ ] **P6-G01/G02 — Product/reporting/backend:** close same-snapshot multi-format/dashboard-export and per-record source-provenance/conflict-review gaps; accept every R1 clause in the requirement matrix, not just individual endpoints.
+- [x] **P6-G01 — Reporting/backend, local remediation:** explicit frozen dashboard/multi-format reuse, current authorization/expiry/privacy and legacy compatibility; CONT-SNAP01–07 and continuation evidence. This is local acceptance, not production certification.
+- [ ] **P6-G02 — Product/backend:** per-record source provenance/conflict/correction gaps; accept remaining whole R1 clauses, not just successful endpoints.
 - [ ] **P6-G03 — UX/QA/product:** manual assistive-technology/report review, effective read-only UI/precise expiry and cross-user freshness; dedicated least-privilege operational role acceptance.
 - [ ] **P6-G04 — Data governance:** approved classification vocabulary/mapping and controlled immutable-history/backfill disposition.
 - [ ] **P6-G05 — SRE/performance QA:** sustained representative staging load, queue-lag/resource/soak/fault evidence and production alerting; do not turn this local run into an SLA claim.
