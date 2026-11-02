@@ -25,7 +25,8 @@
     "check:api": "tsx scripts/api-contract.ts --check && node --input-type=module -e \"import Parser from '@apidevtools/swagger-parser'; await Parser.validate('api/r1.openapi.yaml'); console.log('R1 API contract valid')\"",
     "test:performance": "tsx scripts/phase6-performance.ts",
     "check:release": "tsx scripts/release-preflight.ts",
-    "billing:sync": "tsx scripts/sync-paystack.ts"
+    "billing:sync": "tsx scripts/sync-paystack.ts",
+    "demo": "tsx scripts/demo.ts"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "3.1161.0",

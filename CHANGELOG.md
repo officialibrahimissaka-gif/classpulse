@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Owner handoff, 2026-11-02
+
+- Add Windows owner walkthrough, one startup command for app/worker/local services, and a separate synthetic sample workspace that preserves existing data.
+- Use Node CLI for portable migration invocation; no migration SQL/schema or business/MFA/entitlement changes.
+- Add actual synthetic PDF/CSV/XLSX/dashboard examples and a clearly labeled static Netlify portfolio folder, not a fake live application.
+- Full gate passes 59 tests; actual startup, sample preservation and report downloads validated in Linux. No public deployment or Windows-native execution claimed.
+
 ## Unreleased — Discovery kickoff/revalidation, 2026-11-02
 
 - Add six docs/product discovery artifacts: charter, current market/segment/problem evidence, competitor pricing matrix, interview guide, ranked MVP hypotheses and 30-day validation plan.

@@ -1,6 +1,8 @@
 # Your ClassPulse delivery
 
-**Current release: NO-GO for production.** Latest continuation passes **56 local tests**; [status](DEVELOPMENT_STATUS.md), [roadmap](PRODUCT_ROADMAP.md), [evidence](docs/quality/continuation-2026-11-02/RESULTS.md) and [release checklist](RELEASE_READINESS_CHECKLIST.md) distinguish completed work from remaining gates.
+**Want to open it yourself? Start with [OPEN_MY_PROJECT.md](OPEN_MY_PROJECT.md).** Windows: install Node.js 24 and Docker Desktop, then run `npm.cmd ci` and `npm.cmd run demo`. The helper starts app and worker and provides a separate synthetic sample workspace. For a static page you can upload to Netlify immediately, see [portfolio-showcase](portfolio-showcase/README.md); it is explicitly not the live application.
+
+**Current release: NO-GO for production.** Latest owner handoff passes **59 local tests**; [status](DEVELOPMENT_STATUS.md), [roadmap](PRODUCT_ROADMAP.md), [evidence](docs/quality/continuation-2026-11-02/RESULTS.md) and [release checklist](RELEASE_READINESS_CHECKLIST.md) distinguish completed work from remaining gates.
 
 The source and documentation are now uploaded to GitHub on branch `codex/classpulse-mvp-review`. The `main` branch is unchanged. Uploading source does not deploy a running application.
 
@@ -14,31 +16,23 @@ The branch contains the actual application source, Phase 0–4 documents, databa
 
 Unzip it and open the extracted folder containing `package.json` in VS Code or another editor. Start with `README.md`, `DEVELOPMENT_STATUS.md`, `docs/USER_GUIDE.md`, and `KNOWN_LIMITATIONS.md`.
 
-## Run it on your own computer
+## Run it on your own Windows computer
 
-Install Node.js 24 and Docker Desktop first. Start Docker Desktop. Open a terminal in the extracted folder containing `package.json`:
+Install Node.js 24 and Docker Desktop, open Docker Desktop, and open a terminal in the extracted folder containing `package.json`:
 
-```bash
-npm ci
-npx tsx scripts/local-env.ts
-docker compose --env-file .local/docker.env up -d --wait
-npm run db:migrate
-npm run db:generate
-npm run dev
+```powershell
+npm.cmd ci
+npm.cmd run demo
 ```
 
-Leave that terminal running. Open a second terminal in the same folder:
+Wait for READY, then open **http://127.0.0.1:3000 on that same computer**. Keep the terminal open. The helper starts web/worker and local services and creates a fictional `portfolio-demo` workspace. Use name **Portfolio Demo Owner**, email **demo-owner@example.invalid**, Continue locally, then Join workspace **portfolio-demo**. Existing sample records are preserved on restart. [Owner walkthrough and hosting map](OPEN_MY_PROJECT.md).
 
-```bash
-npm run worker
-```
-
-Now open **http://127.0.0.1:3000 in your computer's browser**. This address works on your computer only after you start the app there. The cloud workspace's localhost address is a different machine; typing it on your computer does not reach the cloud workspace.
+This address is local to the computer running the command; the cloud workspace's localhost is a different computer. Advanced manual setup remains in the developer guide. To view a portfolio page immediately without Docker, open `portfolio-showcase/index.html`; it is a static showcase, not the interactive app.
 
 ## Try a complete workflow
 
-1. Enter a test name/email and click Continue locally. This is an explicitly unverified local test login, not production authentication.
-2. Create a test company. Use `review-agency` as the workspace address, `AE`, `Asia/Dubai`, `AED`, and an explicitly TEST authority/retention policy. Retention values here are test inputs, not legal advice or a production retention recommendation.
+1. Use the supplied local sample sign-in above, or create a separate test company using your own fictional name/email. This is an unverified local identity, not production authentication.
+2. If creating your own workspace rather than opening `portfolio-demo`, create a test company. Use `review-agency` as the workspace address, `AE`, `Asia/Dubai`, `AED`, and an explicitly TEST authority/retention policy. Retention values here are test inputs, not legal advice or a production retention recommendation.
 3. Open Clients, enter a company name and a unique reference, then Add client.
 4. Open Placements, enter a test candidate and different candidate/placement source references. Choose acceptance/start dates before or on today.
 5. Open the placement, complete each required checklist task with a test confirmation, record readiness, then confirm the actual start.
@@ -47,14 +41,14 @@ Now open **http://127.0.0.1:3000 in your computer's browser**. This address work
 
 Sensitive administrative changes require real fresh MFA and intentionally fail under the unverified local login. Payroll and the full HRMS/ATS/CRM vision are not implemented; the approved first release is agency placement coordination.
 
-## Automated checks
+## Automated checks (optional; CI/Linux workflow)
 
 ```bash
 npx playwright install --with-deps chromium
 npm run check
 ```
 
-The recorded suite passes 8 unit tests, 12 native PostgreSQL integration tests and one complete browser journey, plus formatting, lint, types, API/migration/security/build checks. You still need to review the actual workflow and give product feedback; automated checks are not your acceptance.
+Historical checks are documented in the quality records. The owner-handoff results describe the current executed suite; do not treat earlier test totals as a new test run. This test workflow also needs an independent PDF text reader (Poppler) and has been executed in Linux; it is not required to open the local app on Windows. You still need to review the actual workflow and give product feedback; automated checks are not your acceptance.
 
 ## Live browser preview
 

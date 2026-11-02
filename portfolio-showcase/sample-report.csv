@@ -1,0 +1,15 @@
+As of,2026-11-02T09:37:40.719Z,,,,,
+confirmedStarts,2,,,,,
+onTimeRate,100,,,,,
+overdueRequired,6,,,,,
+medianDelay,0,,,,,
+denominator,2,,,,,
+unresolved,3,,,,,
+canceled,0,,,,,
+,,,,,,
+Candidate,Client,State,Original start,Current plan,Actual start,Overdue required
+Demo Candidate 2,Example Client 2,started,2026-11-02,2026-11-02,2026-11-02,0
+Demo Candidate 3,Example Client 1,accepted,2026-11-02,2026-11-02,,2
+Demo Candidate 4,Example Client 2,accepted,2026-11-02,2026-11-02,,2
+Demo Candidate 1,Example Client 1,started,2026-11-02,2026-11-02,2026-11-02,0
+Demo Candidate 5,Example Client 1,accepted,2026-11-02,2026-11-02,,2

@@ -17,3 +17,7 @@ Original choices retained: modular monolith; deployable R1 schema separate from 
 ## D01 kickoff — 2 November 2026
 
 **D01-D001:** Current founder instruction prioritizes a UAE-first/global-later discovery foundation before further feature work. The six docs/product artifacts revalidate segments and alternatives using freshly retrieved official/vendor/review sources; no customer demand or legal readiness is inferred. Existing R1 code/history is preserved, CONT-T002 is paused pending the Day-30 evidence/selection decision, and release NO-GO remains independent. This supersedes the earlier immediate internal-task priority, not its historical implementation/acceptance records.
+
+## Owner handoff — 2 November 2026
+
+**OWNER-D001:** Founder needs possession/access/portfolio presentation and uses Windows without Docker Desktop. Provide local startup/sample utilities, plain file/hosting explanation and real exported fictional examples; keep auth/MFA/trial/billing controls intact. A separate static Netlify-ready showcase must explicitly identify itself as static, while full interactive hosting remains unconfigured. This is an owner-access task, not a new HR product feature or automatic restart of paused D01 implementation. No deployment/public tunnel or live payment is authorized by the helper.

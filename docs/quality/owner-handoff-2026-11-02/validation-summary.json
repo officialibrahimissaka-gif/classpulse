@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-02",
+  "fullGateExitCode": 0,
+  "tests": {
+    "unit": 20,
+    "nativeIntegration": 34,
+    "browser": 5,
+    "total": 59
+  },
+  "localStartupAndStop": "pass-linux",
+  "sampleRepeatPreservesRecords": true,
+  "actualWindowsExecution": false,
+  "staticShowcaseAxeAndResponsive": "pass",
+  "sampleRecords": 5,
+  "sampleConfirmedStarts": 2,
+  "assets": {
+    "portfolio-showcase/sample-report.xlsx": {
+      "bytes": 2321,
+      "sha256": "d677b830f302404705c5dd2b3ec31acf41d6d8245476d64aa107005d8862b20c"
+    },
+    "portfolio-showcase/sample-report.csv": {
+      "bytes": 620,
+      "sha256": "520d8215f05ab517f402b7aa1faa61b2747c80a322a0e95f6ae5133d46f928f3"
+    },
+    "portfolio-showcase/sample-report.pdf": {
+      "bytes": 11505,
+      "sha256": "9f1f1b2997d0134f850d06fb704ef5960c5e98e60d39bb2b95540a3006637f4e"
+    },
+    "portfolio-showcase/dashboard.png": {
+      "bytes": 176654,
+      "sha256": "61a1d69d19e9cf2cc1ceeb020314f1851797cf40eb20192043824c336a3e7ce6"
+    }
+  },
+  "publicDeployment": false,
+  "environmentPublication": false,
+  "livePayment": false,
+  "release": "NO_GO"
+}

@@ -5,10 +5,14 @@ config({ path: ".local/admin.env", quiet: true });
 const url = process.env.ADMIN_DATABASE_URL;
 if (!url)
   throw new Error("ADMIN_DATABASE_URL is required for the migration task only");
-const result = spawnSync("node_modules/.bin/prisma", ["migrate", "deploy"], {
-  stdio: "inherit",
-  env: { ...process.env, DATABASE_URL: url },
-});
+const result = spawnSync(
+  process.execPath,
+  ["node_modules/prisma/build/index.js", "migrate", "deploy"],
+  {
+    stdio: "inherit",
+    env: { ...process.env, DATABASE_URL: url },
+  },
+);
 if (result.status !== 0) process.exit(result.status ?? 1);
 const db = new pg.Client({ connectionString: url });
 await db.connect();

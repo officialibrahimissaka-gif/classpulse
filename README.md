@@ -4,6 +4,10 @@
 
 R1 agency placement-to-start coordination. The runnable implementation covers company setup, clients and minimal candidate references, checklist ownership, scoped client participation, exceptions and human readiness/start decisions, CSV import, daily reminders, and operational reports. Full HRMS and payroll remain outside this release.
 
+## Open and show the project
+
+Start with [OPEN_MY_PROJECT.md](OPEN_MY_PROJECT.md), the Windows owner walkthrough. `npm.cmd ci` then `npm.cmd run demo` starts the real local app, worker and synthetic sample workspace after Node.js 24/Docker Desktop installation. [portfolio-showcase](portfolio-showcase/README.md) is a separate static page with real generated sample files that you can upload to Netlify; it is clearly labeled and is not a public interactive app.
+
 ## Local development
 
 Requires Node 24 and Docker Compose. These commands create private local credentials; they never publish or deploy the environment.
